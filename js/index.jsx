@@ -15,6 +15,8 @@ import Controller from './components/controller';
 
 page.base( '/' );
 
-page( '*', Controller.setup, Controller.navigation, Controller.posts );
+page( '/', Controller.setup, Controller.navigation, Controller.posts );
+page( '/wp-admin/', Controller.passThrough );
+page( '*', Controller.passThrough );
 
 page.start();

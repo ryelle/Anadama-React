@@ -11,6 +11,11 @@ var _currentPost;
 var _firstRun = true;
 
 let Controller = {
+	passThrough: function( context, next ){
+		// Trigger the page load
+		next();
+	},
+
 	setup: function( context, next ) {
 		_currentPost = parseInt( context.params.id ) || false;
 		_firstRun = false;
