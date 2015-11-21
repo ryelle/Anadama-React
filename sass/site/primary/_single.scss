@@ -1,0 +1,39 @@
+/*--------------------------------------------------------------
+    Single Posts & Pages
+--------------------------------------------------------------*/
+
+body.single,
+body.page {
+	.site-main {
+		margin: 0 auto;
+		max-width: $size__site-post;
+	}
+
+	.hentry {
+		margin-bottom: 40px;
+		padding-bottom: 40px;
+		border-bottom: 1px solid $color__border-post;
+	}
+
+	.recipe-post {
+		.jetpack-recipe-print {
+			top: -100px;
+		}
+
+		.entry-footer {
+			padding-left: 25%;
+		}
+	}
+
+	.entry-footer {
+		margin-top: 15px;
+	}
+
+	.post-navigation {
+		margin-bottom: 80px;
+	}
+}
+
+.entry-meta {
+	margin-bottom: 10px;
+}

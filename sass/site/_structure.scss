@@ -1,0 +1,22 @@
+/*--------------------------------------------------------------
+   Site structure
+--------------------------------------------------------------*/
+
+.site-branding,
+.search-form {
+	margin: 0 auto;
+	max-width: $size__site-main;
+}
+
+.search-form {
+	margin-bottom: 75px;
+}
+
+.widget-area {
+	margin-top: 75px;
+
+	.widget {
+		margin: 0 auto;
+		max-width: 940px;
+	}
+}

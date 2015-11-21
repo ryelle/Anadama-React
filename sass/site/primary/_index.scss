@@ -1,0 +1,104 @@
+
+/*--------------------------------------------------------------
+   Lists of posts
+--------------------------------------------------------------*/
+.sticky { /*! Not used*/ }
+
+body.post-list .content-area {
+	text-align: center;
+}
+
+ol.site-main {
+	margin: 0 auto 50px;
+	padding: 0;
+	max-width: 360px;
+	list-style-type: upper-roman;
+	text-align: left;
+
+	li {
+		font-weight: $font__weight-semibold;
+		* {
+			font-weight: normal;
+		}
+	}
+}
+
+.overlay {
+	display: none;
+	position: fixed;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background-color: $color__background-overlay;
+	opacity: 0.75;
+}
+
+.card-wrapper {
+	display: none;
+	position: absolute;
+	top: 20vh;
+	width: 100%;
+
+	.card {
+		position: relative;
+		margin: 0 auto;
+		padding: 60px;
+		width: $size__site-post;
+		background-color: white;
+	}
+
+	.card-x {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		cursor: pointer;
+	}
+}
+
+.recipe-post .entry-content {
+	padding-left: 25%;
+	position: relative;
+
+	.jetpack-recipe {
+		margin: 0;
+		padding: 0;
+		border: none;
+		border-radius: 0;
+	}
+
+	.jetpack-recipe-title {
+		display: none;
+	}
+
+	.jetpack-recipe-meta {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin-top: 18px;
+		padding-right: 20px;
+		width: 25%;
+		@include font-size( $font__size-recipe-meta );
+
+		li {
+			float: none;
+			margin: 0 0 15px;
+		}
+
+		strong {
+			display: block;
+		}
+	}
+
+	.jetpack-recipe-print {
+		position: absolute;
+		top: -75px;
+		right: 0;
+		list-style: none;
+
+		a {
+			text-decoration: none;
+			font-weight: $font__weight-semibold;
+		}
+	}
+}
