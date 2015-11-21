@@ -1,26 +1,20 @@
 /**
- * External dependencies
+ * Entry point for the app.
+ * `page` is used to trigger the right controller for a route.
+ * The controller renders the top-level component for a given page.
  */
-// var page = require( 'page' );
-var ReactDOM = require( 'react-dom' );
-var React = require( 'react' );
 
-console.log( "Starting React…" );
-
-/**
- * Load in the babel (es6) polyfill
- */
+// Load in the babel (es6) polyfill
 require( 'babel-polyfill' );
 
-let Test = React.createClass( {
-	render: function() {
-		return (
-			<h1>Test</h1>
-		);
-	}
-} );
+// External dependencies
+import page from 'page';
 
-ReactDOM.render(
-	<Test />,
-	document.getElementById( 'main' )
-);
+// Internal dependencies
+import Controller from './components/controller';
+
+page.base( '/' );
+
+page( '*', Controller.setup, Controller.navigation, Controller.posts );
+
+page.start();
