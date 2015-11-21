@@ -29,6 +29,7 @@
     "classnames": "^2.2.0",
     "events": "^1.1.0",
     "flux": "^2.1.1",
+    "keymirror": "^0.1.1",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "object": "^0.1.1",
