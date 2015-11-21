@@ -18,8 +18,6 @@ let Post = React.createClass( {
 			'entry': true
 		} );
 
-		console.log( post );
-
 		return (
 			<div className={ classes }>
 				<h1 className='entry-title' dangerouslySetInnerHTML={ this.getTitle() } />
