@@ -21,7 +21,7 @@ let PostList = React.createClass( {
 	},
 
 	componentDidMount: function() {
-		API.getPosts( AnadamaSettings.URL.root + '/posts/' );
+		API.getPosts( AnadamaSettings.URL.root + '/posts/', { 'posts_per_page': 20 } );
 		PostsStore.addChangeListener( this._onChange );
 	},
 

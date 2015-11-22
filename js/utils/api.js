@@ -14,9 +14,10 @@ var _URL = '';
 
 var _noop = function() {};
 
-var _get = function( url, callback ) {
+var _get = function( url, data, callback ) {
 	jQuery.ajax( {
 		url: url,
+		data: data,
 		dataType: 'json',
 		success: ( data ) => {
 			if ( data.constructor !== Array ) {
@@ -49,8 +50,11 @@ var _post = function( url, data, callback ) {
 };
 
 export default {
-	getPosts: function( url ) {
-		PostActions.preFetch( [] );
-		_get( url, PostActions.fetch );
+	getPosts: function( url, args ) {
+		let data = {
+			'filter': args
+		};
+		// PostActions.preFetch( [] );
+		_get( url, data, PostActions.fetch );
 	},
 };
