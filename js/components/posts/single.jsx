@@ -19,10 +19,11 @@ let Post = React.createClass( {
 		} );
 
 		return (
-			<div className={ classes }>
-				<h1 className='entry-title' dangerouslySetInnerHTML={ this.getTitle() } />
-				<div className='entry-content' dangerouslySetInnerHTML={ this.getContent() } />
-			</div>
+			<li id={ "post-" + this.props.id } className={ classes }>
+				<h2 className="entry-title">
+					<a href={ '#' } rel="bookmark" dangerouslySetInnerHTML={ this.getTitle() } />
+				</h2>
+			</li>
 		);
 	}
 } );

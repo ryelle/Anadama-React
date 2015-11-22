@@ -39,7 +39,9 @@ let PostList = React.createClass( {
 		} );
 
 		return (
-			<div>{ posts }</div>
+			<ol className="site-main">
+				{ posts }
+			</ol>
 		);
 	}
 } );
