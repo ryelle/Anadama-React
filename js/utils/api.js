@@ -51,10 +51,7 @@ var _post = function( url, data, callback ) {
 
 export default {
 	getPosts: function( url, args ) {
-		let data = {
-			'filter': args
-		};
 		// PostActions.preFetch( [] );
-		_get( url, data, PostActions.fetch );
+		_get( url, args, PostActions.fetch );
 	},
 };
