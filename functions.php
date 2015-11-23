@@ -111,3 +111,73 @@ function anadama_scripts() {
 	) );
 }
 add_action( 'wp_enqueue_scripts', 'anadama_scripts' );
+
+/**
+ * Returns the Google font stylesheet URL, if available.
+ *
+ * The use of Source Serif Pro and Source Code Pro by default is
+ * localized. For languages that use characters not supported by
+ * either font, the font can be disabled.
+ *
+ * @return string Font stylesheet or empty string if disabled.
+ */
+function anadama_fonts_url() {
+	$fonts_url = '';
+
+	/* Translators: If there are characters in your language that are not
+	 * supported by Source Serif Pro, translate this to 'off'. Do not translate
+	 * into your own language.
+	 */
+	$serifpro = _x( 'on', 'Source Serif Pro font: on or off', 'anadama' );
+
+	/* Translators: If there are characters in your language that are not
+	 * supported by Source Code Pro, translate this to 'off'. Do not translate into
+	 * your own language.
+	 */
+	$codepro = _x( 'on', 'Source Code Pro font: on or off', 'anadama' );
+
+	if ( 'off' !== $serifpro || 'off' !== $codepro ) {
+		$font_families = array();
+
+		if ( 'off' !== $serifpro )
+			$font_families[] = urlencode( 'Source Serif Pro:400,700' );
+
+		if ( 'off' !== $codepro )
+			$font_families[] = urlencode( 'Source Code Pro:400,600' );
+
+		$protocol = is_ssl() ? 'https' : 'http';
+		$query_args = array(
+			'family' => implode( '|', $font_families ),
+			'subset' => urlencode( 'latin,latin-ext' ),
+		);
+		$fonts_url = add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" );
+	}
+
+	return $fonts_url;
+}
+
+/**
+ * Loads our special font CSS file.
+ *
+ * To disable in a child theme, use wp_dequeue_style()
+ * function mytheme_dequeue_fonts() {
+ *     wp_dequeue_style( 'anadama-fonts' );
+ * }
+ * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
+ *
+ * @return void
+ */
+function anadama_fonts() {
+	$fonts_url = anadama_fonts_url();
+	if ( ! empty( $fonts_url ) )
+		wp_enqueue_style( 'anadama-fonts', esc_url_raw( $fonts_url ), array(), null );
+}
+add_action( 'wp_enqueue_scripts', 'anadama_fonts' );
+
+/**
+ * Add theme support for Jetpack Features
+ */
+function anadama_jetpack_setup() {
+	add_theme_support( 'site-logo' );
+}
+add_action( 'after_setup_theme', 'anadama_jetpack_setup' );
