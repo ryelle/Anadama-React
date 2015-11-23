@@ -2,14 +2,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-let Post = React.createClass( {
-	getTitle: function() {
-		return { __html: this.props.title.rendered };
-	},
+// Internal dependencies
+import ContentMixin from 'utils/content-mixin';
 
-	getContent: function() {
-		return { __html: this.props.excerpt.rendered };
-	},
+let Post = React.createClass( {
+	mixins: [ ContentMixin ],
 
 	render: function() {
 		let post = this.props;
@@ -21,7 +18,7 @@ let Post = React.createClass( {
 		return (
 			<li id={ "post-" + this.props.id } className={ classes }>
 				<h2 className="entry-title">
-					<a href={ `/archives/${ this.props.id }/` } rel="bookmark" dangerouslySetInnerHTML={ this.getTitle() } />
+					<a href={ `/archives/${ this.props.id }/` } rel="bookmark" dangerouslySetInnerHTML={ this.getTitle( this.props ) } />
 				</h2>
 			</li>
 		);

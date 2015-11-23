@@ -2,7 +2,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
+// Internal dependencies
+import ContentMixin from 'utils/content-mixin';
+
 let SinglePost = React.createClass( {
+	mixins: [ ContentMixin ],
+
 	render: function() {
 		let classes = classNames( {
 			'entry': true
