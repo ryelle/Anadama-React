@@ -14,34 +14,27 @@ var _URL = '';
 
 var _noop = function() {};
 
-var _get = function( url, data, callback ) {
-	jQuery.ajax( {
+var _get = function( path, data ) {
+	let url = AnadamaSettings.URL.root + path;
+	return jQuery.ajax( {
 		url: url,
 		data: data,
 		dataType: 'json',
-		success: ( data ) => {
-			if ( data.constructor !== Array ) {
-				data = [ data ];
-			}
-			callback( data );
-		},
 		error: ( xhr, status, err ) => {
 			console.error( url, status, err.toString() );
 		}
 	} );
 };
 
-var _post = function( url, data, callback ) {
-	jQuery.ajax( {
+var _post = function( path, data ) {
+	let url = AnadamaSettings.URL.root + path;
+	return jQuery.ajax( {
 		url: url,
 		type: 'post',
 		data: data,
 		dataType: 'json',
 		beforeSend: function( xhr, settings ) {
 			xhr.setRequestHeader( 'X-WP-Nonce', AnadamaSettings.nonce );
-		},
-		success: ( data ) => {
-			callback( data );
 		},
 		error: ( xhr, status, err ) => {
 			console.error( url, status, err.toString() );
@@ -50,8 +43,29 @@ var _post = function( url, data, callback ) {
 };
 
 export default {
+
+	// Get /posts/, then for each post, get the categories.
 	getPosts: function( url, args ) {
 		// PostActions.preFetch( [] );
-		_get( url, args, PostActions.fetch );
+		jQuery.when(
+			_get( url, args )
+		).done( function( data ) {
+			let requests = [];
+			data.map( function( post, i ) {
+				requests.push( _get( '/posts/' + post.id + '/terms/category', {} ) );
+			} );
+			jQuery.when( ...requests ).done( function( ...results ) {
+				results.map( function( result, i ) {
+					if ( 'success' !== result[1] ) {
+						data[i].categories = [];
+						return;
+					}
+					data[i].categories = result[0];
+				} );
+
+				PostActions.fetch( data );
+			} );
+		} );
 	},
+
 };

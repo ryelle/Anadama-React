@@ -21,7 +21,7 @@ let PostList = React.createClass( {
 	},
 
 	componentDidMount: function() {
-		API.getPosts( AnadamaSettings.URL.root + '/posts/', { 'per_page': 20 } );
+		API.getPosts( '/posts/', { 'per_page': 20 } );
 		PostsStore.addChangeListener( this._onChange );
 	},
 
@@ -33,8 +33,8 @@ let PostList = React.createClass( {
 		this.setState( getState() );
 	},
 
-	render: function() {
-		var posts = this.state.data.map( function( post, i ) {
+	renderPosts: function( posts ) {
+		posts = posts.map( function( post, i ) {
 			return <Post key={ 'post-' + i } { ...post } />
 		} );
 
@@ -42,6 +42,40 @@ let PostList = React.createClass( {
 			<ol className="site-main">
 				{ posts }
 			</ol>
+		);
+	},
+
+	render: function() {
+		let categories = {}; // { $slug: { name: 'Cake', posts: [ Object, Object ] }, $slug: ... }
+		let posts = [];
+
+		for ( let post of this.state.data ) {
+			for ( let cat of post.categories ) {
+				if ( 'undefined' === typeof categories[ cat.slug ] ) {
+					categories[ cat.slug ] = {
+						name: cat.name,
+						posts: [ post ],
+					};
+				} else {
+					categories[ cat.slug ].posts.push( post );
+				}
+			}
+		}
+
+		for ( let slug of Object.keys( categories ) ) {
+			let cat = categories[ slug ];
+			posts.push(
+				<div className='posts-list' key={ slug }>
+					<h1 className='section-title'>{ cat.name }</h1>
+					{ this.renderPosts( cat.posts ) }
+				</div>
+			);
+		};
+
+		return (
+			<div className="site-content">
+				{ posts }
+			</div>
 		);
 	}
 } );
