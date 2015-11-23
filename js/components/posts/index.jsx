@@ -62,7 +62,11 @@ let PostList = React.createClass( {
 			}
 		}
 
-		for ( let slug of Object.keys( categories ) ) {
+		// Sort categories by name
+		let slugs = Object.keys( categories );
+		slugs.sort();
+
+		for ( let slug of slugs ) {
 			let cat = categories[ slug ];
 			posts.push(
 				<div className='posts-list' key={ slug }>
