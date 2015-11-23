@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 // Components
 import PostList from './posts';
 import Navigation from './navigation';
+import SinglePost from './post';
 
 // Private vars
 var _currentPost;
@@ -34,6 +35,13 @@ let Controller = {
 	posts: function() {
 		ReactDOM.render(
 			<PostList />,
+			document.getElementById( 'main' )
+		);
+	},
+
+	post: function( context ) {
+		ReactDOM.render(
+			<SinglePost id={ _currentPost } />,
 			document.getElementById( 'main' )
 		);
 	},
