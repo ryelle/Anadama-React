@@ -57,6 +57,12 @@ let PostList = React.createClass( {
 		} );
 	},
 
+	renderPlaceholder: function() {
+		return (
+			<div className="placeholder">Deliciousness is loading…</div>
+		);
+	},
+
 	renderPosts: function( posts ) {
 		posts = posts.map( function( post, i ) {
 			return <Post key={ 'post-' + i } { ...post } />
@@ -106,7 +112,10 @@ let PostList = React.createClass( {
 		return (
 			<div className="site-content">
 				<SearchForm ref='searchForm' onChange={ this.search } />
-				{ posts }
+				{ posts.length ?
+					posts :
+					this.renderPlaceholder()
+				}
 			</div>
 		);
 	}
