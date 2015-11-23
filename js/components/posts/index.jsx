@@ -69,7 +69,7 @@ let PostList = React.createClass( {
 		for ( let slug of slugs ) {
 			let cat = categories[ slug ];
 			posts.push(
-				<div className='posts-list' key={ slug }>
+				<div className='post-list' key={ slug }>
 					<h1 className='section-title'>{ cat.name }</h1>
 					{ this.renderPosts( cat.posts ) }
 				</div>
