@@ -1,17 +1,20 @@
 // External dependencies
 import React from 'react';
+import filter from 'lodash/collection/filter';
 
 // Internal dependencies
 import API from 'utils/api';
 import PostsStore from '../../stores/posts-store';
 import Post from './single';
+import SearchForm from '../search';
 
 /**
  * Method to retrieve state from Stores
  */
 function getState() {
 	return {
-		data: PostsStore.getPosts()
+		data: PostsStore.getPosts(),
+		filter: '',
 	};
 }
 
@@ -33,6 +36,27 @@ let PostList = React.createClass( {
 		this.setState( getState() );
 	},
 
+	search: function( event ) {
+		let term = this.refs.searchForm.getValue();
+		this.setState( {
+			filter: term,
+		} );
+	},
+
+	getPosts: function() {
+		if ( ! this.state.filter ) {
+			return this.state.data;
+		}
+		return filter( this.state.data, ( post, i ) => {
+			if ( 'undefined' === typeof post.title ) {
+				return false;
+			}
+			let title = post.title.rendered.toLowerCase();
+			let search = this.state.filter.toLowerCase();
+			return ( -1 !== title.indexOf( search ) );
+		} );
+	},
+
 	renderPosts: function( posts ) {
 		posts = posts.map( function( post, i ) {
 			return <Post key={ 'post-' + i } { ...post } />
@@ -49,7 +73,7 @@ let PostList = React.createClass( {
 		let categories = {}; // { $slug: { name: 'Cake', posts: [ Object, Object ] }, $slug: ... }
 		let posts = [];
 
-		for ( let post of this.state.data ) {
+		for ( let post of this.getPosts() ) {
 			if ( 'undefined' === typeof post.categories ) {
 				continue;
 			}
@@ -81,6 +105,7 @@ let PostList = React.createClass( {
 
 		return (
 			<div className="site-content">
+				<SearchForm ref='searchForm' onChange={ this.search } />
 				{ posts }
 			</div>
 		);
