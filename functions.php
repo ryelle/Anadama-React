@@ -98,7 +98,7 @@ add_action( 'after_setup_theme', 'anadama_content_width', 0 );
  */
 function anadama_scripts() {
 	wp_enqueue_style( 'anadama-style', get_stylesheet_uri() );
-	wp_enqueue_script( 'anadama-react', get_template_directory_uri() . '/js/app.js', array(), ANADAMA_VERSION, true );
+	wp_enqueue_script( 'anadama-react', get_template_directory_uri() . '/js/app.js', array( 'jquery' ), ANADAMA_VERSION, true );
 
 	wp_localize_script( 'anadama-react', 'AnadamaSettings', array(
 		'nonce' => wp_create_nonce( 'wp_rest' ),
