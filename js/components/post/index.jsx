@@ -56,17 +56,12 @@ let SinglePost = React.createClass( {
 		} );
 
 		return (
-			<div>
-				<div className="overlay close-card" onClick={ this.close } />
-				<div className="card-wrapper card-close">
-					<div className="card">
-						<article id={ `post-${ post.id }` } className={ classes }>
-							<a className="card-x close-card" onClick={ this.close }>x</a>
-							<h2 className="entry-title" dangerouslySetInnerHTML={ this.getTitle( post ) } />
-							<div className="entry-content" dangerouslySetInnerHTML={ this.getContent( post ) } />
-						</article>
-					</div>
-				</div>
+			<div className="card">
+				<article id={ `post-${ post.id }` } className={ classes }>
+					<a className="card-x close-card" onClick={ this.close }>&lt; Back</a>
+					<h2 className="entry-title" dangerouslySetInnerHTML={ this.getTitle( post ) } />
+					<div className="entry-content" dangerouslySetInnerHTML={ this.getContent( post ) } />
+				</article>
 			</div>
 		);
 	}

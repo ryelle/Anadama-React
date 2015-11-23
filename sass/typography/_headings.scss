@@ -33,6 +33,7 @@ h3, h4, h5, h6 {
 	font-family: $font__main;
 	font-weight: $font__weight-semibold;
 	@include font-size( $font__size-header );
+	text-align: center;
 	border-bottom: 2px solid $color__border-input;
 }
 
@@ -41,5 +42,6 @@ h3, h4, h5, h6 {
 	margin: 0;
 	font-weight: normal;
 	@include font-size( $font__size-main );
+	text-align: left;
 	border-bottom: none;
 }

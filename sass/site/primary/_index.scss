@@ -23,38 +23,22 @@ ol.site-main {
 	}
 }
 
-.overlay {
-	position: fixed;
-	top: 0; left: 0; right: 0; bottom: 0;
-	background-color: $color__background-overlay;
-	opacity: 0.75;
+.card {
+	position: relative;
+	margin: 0 auto;
+	padding: 0 60px 60px;
+	width: $size__site-post;
+	background-color: white;
 }
 
-.card-wrapper {
+.card-x {
 	position: absolute;
-	top: 20vh;
-	width: 100%;
-
-	.card {
-		position: relative;
-		margin: 0 auto;
-		padding: 60px;
-		width: $size__site-post;
-		background-color: white;
-	}
-
-	.card-x {
-		position: absolute;
-		top: 20px;
-		right: 20px;
-		width: 25px;
-		height: 25px;
-		text-align: center;
-		cursor: pointer;
-	}
+	left: 60px;
+	top: 10px;
+	cursor: pointer;
 }
 
-.recipe-post .entry-content {
+.site-main .entry-content {
 	padding-left: 25%;
 	position: relative;
 
