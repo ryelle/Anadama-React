@@ -21,4 +21,15 @@ export default {
 			data: posts
 		} );
 	},
+
+	/**
+	 * @param  {array}  posts
+	 */
+	fetchSingle: function( post ) {
+		AppDispatcher.handleViewAction( {
+			actionType: AppConstants.REQUEST_POST_SUCCESS,
+			id: post.id,
+			data: post
+		} );
+	},
 }

@@ -24,7 +24,6 @@ ol.site-main {
 }
 
 .overlay {
-	display: none;
 	position: fixed;
 	top: 0; left: 0; right: 0; bottom: 0;
 	background-color: $color__background-overlay;
@@ -32,7 +31,6 @@ ol.site-main {
 }
 
 .card-wrapper {
-	display: none;
 	position: absolute;
 	top: 20vh;
 	width: 100%;

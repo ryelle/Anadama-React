@@ -46,6 +46,7 @@ export default {
 
 	// Get /posts/, then for each post, get the categories.
 	getPosts: function( url, args ) {
+		args = args || {};
 		// PostActions.preFetch( [] );
 		jQuery.when(
 			_get( url, args )
@@ -68,4 +69,13 @@ export default {
 		} );
 	},
 
+	// Get /posts/:id
+	getPost: function( url, args ) {
+		args = args || {};
+		jQuery.when(
+			_get( url, args )
+		).done( function( data ) {
+			PostActions.fetchSingle( data );
+		} );
+	}
 };

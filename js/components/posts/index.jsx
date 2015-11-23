@@ -49,6 +49,10 @@ let PostList = React.createClass( {
 		let categories = {}; // { $slug: { name: 'Cake', posts: [ Object, Object ] }, $slug: ... }
 		let posts = [];
 
+		if ( 'undefined' === typeof this.state.data.categories ) {
+			return null;
+		}
+
 		for ( let post of this.state.data ) {
 			for ( let cat of post.categories ) {
 				if ( 'undefined' === typeof categories[ cat.slug ] ) {
