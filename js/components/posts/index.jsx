@@ -44,7 +44,7 @@ let PostList = React.createClass( {
 	},
 
 	getPosts: function() {
-		if ( ! this.state.filter ) {
+		if ( ! this.state.filter || ( this.state.filter.length < 3 ) ) {
 			return this.state.data;
 		}
 		return filter( this.state.data, ( post, i ) => {
