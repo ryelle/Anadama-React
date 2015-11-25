@@ -9,7 +9,6 @@ import SinglePost from './post';
 
 // Private vars
 var _currentPost;
-var _firstRun = true;
 
 let Controller = {
 	passThrough: function( context, next ){
@@ -18,8 +17,7 @@ let Controller = {
 	},
 
 	setup: function( context, next ) {
-		_currentPost = parseInt( context.params.id ) || false;
-		_firstRun = false;
+		_currentPost = context.params.slug || false;
 		next();
 	},
 
@@ -41,7 +39,14 @@ let Controller = {
 
 	post: function( context ) {
 		ReactDOM.render(
-			<SinglePost id={ _currentPost } />,
+			<SinglePost slug={ _currentPost } />,
+			document.getElementById( 'main' )
+		);
+	},
+
+	page: function( context ) {
+		ReactDOM.render(
+			<SinglePost slug={ _currentPost } />,
 			document.getElementById( 'main' )
 		);
 	},
