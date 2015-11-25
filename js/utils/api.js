@@ -22,21 +22,6 @@ var _get = function( url, data ) {
 	} );
 };
 
-var _post = function( url, data ) {
-	return jQuery.ajax( {
-		url: url,
-		type: 'post',
-		data: data,
-		dataType: 'json',
-		beforeSend: function( xhr, settings ) {
-			xhr.setRequestHeader( 'X-WP-Nonce', AnadamaSettings.nonce );
-		},
-		error: ( xhr, status, err ) => {
-			console.error( url, status, err.toString() );
-		}
-	} );
-};
-
 export default {
 
 	// Get /posts/, then for each post, get the categories.
