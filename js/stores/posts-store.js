@@ -65,9 +65,9 @@ let PostsStore = assign( {}, EventEmitter.prototype, {
 	 *
 	 * @returns {array}
 	 */
-	getPost: function( id ) {
+	getPost: function( slug ) {
 		var post = find( _posts, function( _post ) {
-			return parseInt( id ) === parseInt( _post.id );
+			return slug === _post.slug;
 		} );
 		post = post || {};
 		return post;

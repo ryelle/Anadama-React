@@ -1,4 +1,6 @@
 /* global jQuery */
+import first from 'lodash/array/first';
+
 /**
  * Internal dependencies
  */
@@ -50,12 +52,15 @@ export default {
 	},
 
 	// Get /posts/:id
-	getPost: function( path, args ) {
-		let url = AnadamaSettings.URL.root + path;
+	getPost: function( slug ) {
+		let url = `${AnadamaSettings.URL.root}/posts/?filter[name]=${slug}`;
 
 		jQuery.when(
-			_get( url, args )
+			_get( url, {} )
 		).done( function( data ) {
+			if ( data.constructor === Array ) {
+				data = first( data );
+			}
 			PostActions.fetchSingle( data );
 		} );
 	},

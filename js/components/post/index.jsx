@@ -20,12 +20,16 @@ function getState( id ) {
 let SinglePost = React.createClass( {
 	mixins: [ ContentMixin ],
 
+	propTypes: {
+		slug: React.PropTypes.string.isRequired,
+	},
+
 	getInitialState: function() {
-		return getState( this.props.id );
+		return getState( this.props.slug );
 	},
 
 	componentDidMount: function() {
-		API.getPost( '/posts/' + this.props.id );
+		API.getPost( this.props.slug );
 		PostsStore.addChangeListener( this._onChange );
 	},
 
@@ -34,7 +38,7 @@ let SinglePost = React.createClass( {
 	},
 
 	_onChange: function() {
-		this.setState( getState( this.props.id ) );
+		this.setState( getState( this.props.slug ) );
 	},
 
 	close: function( event ) {
