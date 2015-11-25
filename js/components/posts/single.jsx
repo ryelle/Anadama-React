@@ -18,7 +18,7 @@ let Post = React.createClass( {
 		return (
 			<li id={ "post-" + this.props.id } className={ classes }>
 				<h2 className="entry-title">
-					<a href={ `/archives/${ this.props.id }/` } rel="bookmark" dangerouslySetInnerHTML={ this.getTitle( this.props ) } />
+					<a href={ this.props.link } rel="bookmark" dangerouslySetInnerHTML={ this.getTitle( this.props ) } />
 				</h2>
 			</li>
 		);

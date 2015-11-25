@@ -41,7 +41,7 @@ let MenuItem = React.createClass( {
 
 		return (
 			<li className={ classes }>
-				<a href={ `/archives/${ this.props.item.object_id }/` }>{ this.props.item.title }</a>
+				<a href={ this.props.item.url }>{ this.props.item.title }</a>
 				{ this.props.item.children.length ?
 					<SubMenu items={ this.props.item.children } />:
 					null
