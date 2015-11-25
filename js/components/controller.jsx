@@ -8,7 +8,7 @@ import Navigation from './navigation';
 import SinglePost from './post';
 
 // Private vars
-var _currentPost;
+var _currentSlug, _currentType;
 
 let Controller = {
 	passThrough: function( context, next ){
@@ -17,7 +17,19 @@ let Controller = {
 	},
 
 	setup: function( context, next ) {
-		_currentPost = context.params.slug || false;
+		var path = context.pathname;
+		if ( path.substr( -1 ) === '/' ) {
+			path = path.substr( 0, path.length - 1 );
+		}
+		if ( path.length ) {
+			_currentSlug = path.substring( path.lastIndexOf( '/' ) + 1 );
+		}
+
+		_currentType = 'post';
+		if ( ! path.match( /\d{4}\/\d{2}/ ) ) {
+			_currentType = 'page';
+		}
+
 		next();
 	},
 
@@ -39,14 +51,7 @@ let Controller = {
 
 	post: function( context ) {
 		ReactDOM.render(
-			<SinglePost slug={ _currentPost } />,
-			document.getElementById( 'main' )
-		);
-	},
-
-	page: function( context ) {
-		ReactDOM.render(
-			<SinglePost slug={ _currentPost } type='page' />,
+			<SinglePost slug={ _currentSlug } type={ _currentType } />,
 			document.getElementById( 'main' )
 		);
 	},
