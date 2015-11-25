@@ -52,8 +52,8 @@ export default {
 	},
 
 	// Get /posts/:id
-	getPost: function( slug ) {
-		let url = `${AnadamaSettings.URL.root}/posts/?filter[name]=${slug}`;
+	getPost: function( slug, type ) {
+		let url = `${AnadamaSettings.URL.root}/${type}s/?filter[name]=${slug}`;
 
 		jQuery.when(
 			_get( url, {} )

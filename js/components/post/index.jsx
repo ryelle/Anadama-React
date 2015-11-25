@@ -22,6 +22,13 @@ let SinglePost = React.createClass( {
 
 	propTypes: {
 		slug: React.PropTypes.string.isRequired,
+		type: React.PropTypes.oneOf( [ 'post', 'page' ] ),
+	},
+
+	getDefaultProps: function(){
+		return {
+			type: 'post',
+		};
 	},
 
 	getInitialState: function() {
@@ -29,7 +36,7 @@ let SinglePost = React.createClass( {
 	},
 
 	componentDidMount: function() {
-		API.getPost( this.props.slug );
+		API.getPost( this.props.slug, this.props.type );
 		PostsStore.addChangeListener( this._onChange );
 	},
 

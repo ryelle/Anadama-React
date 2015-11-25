@@ -46,7 +46,7 @@ let Controller = {
 
 	page: function( context ) {
 		ReactDOM.render(
-			<SinglePost slug={ _currentPost } />,
+			<SinglePost slug={ _currentPost } type='page' />,
 			document.getElementById( 'main' )
 		);
 	},
