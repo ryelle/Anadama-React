@@ -40,6 +40,12 @@ let SinglePost = React.createClass( {
 		PostsStore.addChangeListener( this._onChange );
 	},
 
+	componentDidUpdate: function( prevProps, prevState ) {
+		if ( prevProps !== this.props ) {
+			API.getPost( this.props.slug, this.props.type );
+		}
+	},
+
 	componentWillUnmount: function() {
 		PostsStore.removeChangeListener( this._onChange );
 	},
