@@ -75,7 +75,7 @@ let Navigation = React.createClass( {
 		} );
 
 		return (
-			<div className="menu-short-menu-container">
+			<div className="menu-container">
 				<ul className="menu nav-menu" aria-expanded="false">
 					{ menu }
 				</ul>
