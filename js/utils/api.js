@@ -3,7 +3,7 @@
  * Internal dependencies
  */
 import PostActions from '../actions/post-actions';
-// import NavActions from '../actions/nav-actions';
+import NavActions from '../actions/nav-actions';
 
 /**
  * The API URL prefix
@@ -14,8 +14,7 @@ var _URL = '';
 
 var _noop = function() {};
 
-var _get = function( path, data ) {
-	let url = AnadamaSettings.URL.root + path;
+var _get = function( url, data ) {
 	return jQuery.ajax( {
 		url: url,
 		data: data,
@@ -26,8 +25,7 @@ var _get = function( path, data ) {
 	} );
 };
 
-var _post = function( path, data ) {
-	let url = AnadamaSettings.URL.root + path;
+var _post = function( url, data ) {
 	return jQuery.ajax( {
 		url: url,
 		type: 'post',
@@ -45,15 +43,15 @@ var _post = function( path, data ) {
 export default {
 
 	// Get /posts/, then for each post, get the categories.
-	getPosts: function( url, args ) {
-		args = args || {};
-		// PostActions.preFetch( [] );
+	getPosts: function( path, args ) {
+		let url = AnadamaSettings.URL.root + path;
+
 		jQuery.when(
 			_get( url, args )
 		).done( function( data ) {
 			let requests = [];
 			data.map( function( post, i ) {
-				requests.push( _get( '/posts/' + post.id + '/terms/category', {} ) );
+				requests.push( _get( AnadamaSettings.URL.root + '/posts/' + post.id + '/terms/category', {} ) );
 			} );
 			jQuery.when( ...requests ).done( function( ...results ) {
 				results.map( function( result, i ) {
@@ -70,12 +68,24 @@ export default {
 	},
 
 	// Get /posts/:id
-	getPost: function( url, args ) {
-		args = args || {};
+	getPost: function( path, args ) {
+		let url = AnadamaSettings.URL.root + path;
+
 		jQuery.when(
 			_get( url, args )
 		).done( function( data ) {
 			PostActions.fetchSingle( data );
+		} );
+	},
+
+	// Get /wp-api-menus/v2/menu-locations/:location
+	getMenu: function( path ) {
+		let url = AnadamaSettings.URL.menuRoot + path;
+
+		jQuery.when(
+			_get( url, {} )
+		).done( function( data ) {
+			NavActions.fetch( data );
 		} );
 	}
 };
