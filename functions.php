@@ -105,8 +105,8 @@ function anadama_scripts() {
 		'user' => get_current_user_id(),
 		'URL' => array(
 			'root' => esc_url_raw( get_rest_url( null, '/wp/v2' ) ),
+			'menuRoot' => esc_url_raw( get_rest_url( null, '/wp-api-menus/v2' ) ),
 			'base' => esc_url_raw( home_url() ),
-			'theme' => esc_url_raw( get_template_directory_uri() ),
 		),
 	) );
 }
