@@ -76,16 +76,4 @@ ol.site-main {
 			display: block;
 		}
 	}
-
-	.jetpack-recipe-print {
-		position: absolute;
-		top: -75px;
-		right: 0;
-		list-style: none;
-
-		a {
-			text-decoration: none;
-			font-weight: $font__weight-semibold;
-		}
-	}
 }
