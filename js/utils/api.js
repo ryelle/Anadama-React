@@ -19,9 +19,6 @@ var _get = function( url, data ) {
 		url: url,
 		data: data,
 		dataType: 'json',
-		error: ( xhr, status, err ) => {
-			console.error( url, status, err.toString() );
-		}
 	} );
 };
 
@@ -86,6 +83,8 @@ export default {
 			_get( url, {} )
 		).done( function( data ) {
 			NavActions.fetch( data );
+		} ).fail( function( request, status, message ) {
+			NavActions.fetchFailed( message, request );
 		} );
 	}
 };

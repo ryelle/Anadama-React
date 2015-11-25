@@ -11,4 +11,15 @@ export default {
 			data: menu
 		} );
 	},
+
+	/**
+	 * @param  {array}  menu
+	 */
+	fetchFailed: function( message, request ) {
+		AppDispatcher.handleViewAction( {
+			actionType: AppConstants.REQUEST_NAV_ERROR,
+			message: message,
+			data: request
+		} );
+	},
 }

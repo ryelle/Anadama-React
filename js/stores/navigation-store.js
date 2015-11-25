@@ -21,6 +21,17 @@ function _loadMenu( data ) {
 	_menu = data;
 }
 
+/**
+ * Notify the user (via dev tools for now) that the menus couldn't load.
+ */
+function _notifyError( message, request ) {
+	let error = `Menus failed to load. The endpoint returned: ${message}: ${request.responseJSON.message}`;
+	if ( 'rest_no_route' === request.responseJSON.code ) {
+		error += '. Please enable the `wp-api-menus` plugin to enable this endpoint.';
+	}
+	console.warn( error );
+}
+
 let NavigationStore = assign( {}, EventEmitter.prototype, {
 	emitChange: function() {
 		this.emit( CHANGE_EVENT );
@@ -50,6 +61,9 @@ let NavigationStore = assign( {}, EventEmitter.prototype, {
 		switch ( action.actionType ) {
 			case AppConstants.REQUEST_NAV_SUCCESS:
 				_loadMenu( action.data );
+				break;
+			case AppConstants.REQUEST_NAV_ERROR:
+				_notifyError( action.message, action.data );
 				break;
 		}
 
