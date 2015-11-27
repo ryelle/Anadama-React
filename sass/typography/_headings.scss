@@ -24,10 +24,7 @@ h3, h4, h5, h6 {
 	@include font-size( 24 );
 }
 
-.entry-title,
-.page-title,
-.comments-title,
-.comment-reply-title {
+.entry-title {
 	padding: 0 0 10px;
 	margin-bottom: 30px;
 	font-family: $font__main;
