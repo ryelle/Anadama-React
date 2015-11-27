@@ -1,6 +1,7 @@
 // React
 import React from 'react';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 // Components
 import PostList from './posts';
@@ -29,6 +30,15 @@ let Controller = {
 		if ( ! path.match( /\d{4}\/\d{2}/ ) ) {
 			_currentType = 'page';
 		}
+
+		let bodyClass = {
+			'logged-in': ( parseInt( AnadamaSettings.user ) !== 0 ),
+			'home': ( path.length === 0 ),
+			'single': ( path.length > 0 ),
+			'single-page': ( path.length > 0 ) && ( 'page' === _currentType ),
+			'single-post': ( path.length > 0 ) && ( 'post' === _currentType ),
+		};
+		document.body.className = classNames( bodyClass );
 
 		next();
 	},
