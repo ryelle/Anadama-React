@@ -103,6 +103,7 @@ function anadama_scripts() {
 	wp_localize_script( 'anadama-react', 'AnadamaSettings', array(
 		'nonce' => wp_create_nonce( 'wp_rest' ),
 		'user' => get_current_user_id(),
+		'title' => get_bloginfo( 'name', 'display' ),
 		'URL' => array(
 			'root' => esc_url_raw( get_rest_url( null, '/wp/v2' ) ),
 			'menuRoot' => esc_url_raw( get_rest_url( null, '/wp-api-menus/v2' ) ),

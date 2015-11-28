@@ -36,6 +36,10 @@ let PostList = React.createClass( {
 		this.setState( getState() );
 	},
 
+	setTitle: function() {
+		document.title = AnadamaSettings.title;
+	},
+
 	search: function( event ) {
 		let term = this.refs.searchForm.getValue();
 		this.setState( {
@@ -78,6 +82,8 @@ let PostList = React.createClass( {
 	render: function() {
 		let categories = {}; // { $slug: { name: 'Cake', posts: [ Object, Object ] }, $slug: ... }
 		let posts = [];
+
+		this.setTitle();
 
 		for ( let post of this.getPosts() ) {
 			if ( 'undefined' === typeof post.categories ) {

@@ -54,6 +54,13 @@ let SinglePost = React.createClass( {
 		this.setState( getState( this.props.slug ) );
 	},
 
+	setTitle: function() {
+		let post = this.state.data;
+		if ( 'undefined' !== typeof post.title ) {
+			document.title = `${post.title.rendered} — ${AnadamaSettings.title}`;
+		}
+	},
+
 	close: function( event ) {
 		page( '/' );
 	},
@@ -67,6 +74,8 @@ let SinglePost = React.createClass( {
 		if ( 'undefined' === typeof post.title ) {
 			return this.renderPlaceholder();
 		}
+
+		this.setTitle();
 
 		let classes = classNames( {
 			'entry': true
