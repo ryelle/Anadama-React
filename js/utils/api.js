@@ -7,13 +7,6 @@ import first from 'lodash/array/first';
 import PostActions from '../actions/post-actions';
 import NavActions from '../actions/nav-actions';
 
-/**
- * The API URL prefix
- * @type {string}
- * @protected
- */
-var _URL = '';
-
 var _noop = function() {};
 
 var _get = function( url, data ) {
