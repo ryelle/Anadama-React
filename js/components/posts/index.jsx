@@ -62,6 +62,11 @@ let PostList = React.createClass( {
 	},
 
 	renderPlaceholder: function() {
+		if ( this.state.filter.length > 0 ) {
+			return (
+				<div className="placeholder">No results found for &ldquo;{ this.state.filter }&rdquo;</div>
+			);
+		}
 		return (
 			<div className="placeholder">Deliciousness is loading…</div>
 		);
