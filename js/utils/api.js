@@ -10,10 +10,20 @@ import NavActions from '../actions/nav-actions';
 var _noop = function() {};
 
 var _get = function( url, data ) {
+	let cacheKey = url.replace( AnadamaSettings.URL.base, '' );
+	let postData = JSON.parse( localStorage.getItem( cacheKey ) );
+	if ( postData ) {
+		let dfd = jQuery.Deferred();
+		return dfd.resolve( postData );
+	}
+
 	return jQuery.ajax( {
 		url: url,
 		data: data,
 		dataType: 'json',
+		success: ( data ) => {
+			localStorage.setItem( cacheKey, JSON.stringify( data ) );
+		}
 	} );
 };
 
@@ -32,11 +42,16 @@ export default {
 			} );
 			jQuery.when( ...requests ).done( function( ...results ) {
 				results.map( function( result, i ) {
-					if ( 'success' !== result[1] ) {
+					if ( 'success' === result[1] ) {
+						// Successful response from API
+						data[i].categories = result[0];
+					} else if ( 'string' === typeof result[1] ) {
+						// Unsuccessful response from API
 						data[i].categories = [];
-						return;
+					} else {
+						// Pulled data from localStorage
+						data[i].categories = result;
 					}
-					data[i].categories = result[0];
 				} );
 
 				PostActions.fetch( data );
