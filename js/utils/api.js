@@ -11,7 +11,7 @@ var _noop = function() {};
 
 var _get = function( url, data ) {
 	let cacheKey = url.replace( AnadamaSettings.URL.base, '' );
-	let postData = JSON.parse( localStorage.getItem( cacheKey ) );
+	let postData = false; // JSON.parse( localStorage.getItem( cacheKey ) );
 	if ( postData ) {
 		let dfd = jQuery.Deferred();
 		return dfd.resolve( postData );
@@ -30,27 +30,30 @@ var _get = function( url, data ) {
 export default {
 
 	// Get /posts/, then for each post, get the categories.
-	getPosts: function( path, args ) {
-		let url = AnadamaSettings.URL.root + path;
+	// args might have pagination.
+	getPosts: function( args ) {
+		let url = AnadamaSettings.URL.root + '/terms/category/';
+		args.hide_empty = true
+		args.per_page = 10;
 
 		jQuery.when(
 			_get( url, args )
 		).done( function( data ) {
 			let requests = [];
-			data.map( function( post, i ) {
-				requests.push( _get( AnadamaSettings.URL.root + '/posts/' + post.id + '/terms/category', {} ) );
+			data.map( function( category, i ) {
+				requests.push( _get( AnadamaSettings.URL.root + '/posts/', { 'filter': { 'category_name': category.slug }} ) );
 			} );
 			jQuery.when( ...requests ).done( function( ...results ) {
 				results.map( function( result, i ) {
 					if ( 'success' === result[1] ) {
 						// Successful response from API
-						data[i].categories = result[0];
+						data[i].posts = result[0];
 					} else if ( 'string' === typeof result[1] ) {
 						// Unsuccessful response from API
-						data[i].categories = [];
+						data[i].posts = [];
 					} else {
 						// Pulled data from localStorage
-						data[i].categories = result;
+						data[i].posts = result;
 					}
 				} );
 
@@ -59,7 +62,7 @@ export default {
 		} );
 	},
 
-	// Get /posts/:id
+	// Get /{post_type}/?filter[name]={slug}
 	getPost: function( slug, type ) {
 		let url = `${AnadamaSettings.URL.root}/${type}s/?filter[name]=${slug}`;
 

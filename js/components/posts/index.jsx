@@ -13,7 +13,7 @@ import SearchForm from '../search';
  */
 function getState() {
 	return {
-		data: PostsStore.getPosts(),
+		data: PostsStore.getPostsByCategory(),
 		filter: '',
 	};
 }
@@ -24,7 +24,7 @@ let PostList = React.createClass( {
 	},
 
 	componentDidMount: function() {
-		API.getPosts( '/posts/', { 'per_page': 20 } );
+		API.getPosts( { page: 1 } );
 		PostsStore.addChangeListener( this._onChange );
 	},
 
@@ -85,35 +85,14 @@ let PostList = React.createClass( {
 	},
 
 	render: function() {
-		let categories = {}; // { $slug: { name: 'Cake', posts: [ Object, Object ] }, $slug: ... }
+		let categories = this.state.data; // { $slug: { name: 'Cake', posts: [ Object, Object ] }, $slug: ... }
 		let posts = [];
 
 		this.setTitle();
 
-		for ( let post of this.getPosts() ) {
-			if ( 'undefined' === typeof post.categories ) {
-				continue;
-			}
-			for ( let cat of post.categories ) {
-				if ( 'undefined' === typeof categories[ cat.slug ] ) {
-					categories[ cat.slug ] = {
-						name: cat.name,
-						posts: [ post ],
-					};
-				} else {
-					categories[ cat.slug ].posts.push( post );
-				}
-			}
-		}
-
-		// Sort categories by name
-		let slugs = Object.keys( categories );
-		slugs.sort();
-
-		for ( let slug of slugs ) {
-			let cat = categories[ slug ];
+		for ( let cat of categories ) {
 			posts.push(
-				<div className='post-list' key={ slug }>
+				<div className='post-list' key={ cat.slug }>
 					<h1 className='section-title'>{ cat.name }</h1>
 					{ this.renderPosts( cat.posts ) }
 				</div>

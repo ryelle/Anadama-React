@@ -16,12 +16,25 @@ var CHANGE_EVENT = 'change';
 var _posts = [];
 
 /**
+ * Our working posts-by-category list, read-only
+ * @type {array}
+ * @protected
+ */
+var _categories = [];
+
+/**
  * Load this array into our posts list
  *
  * @param {array} data - array of posts, pulled from API
  */
 function _loadPosts( data ) {
-	_posts = data;
+	// for each data.post, loadPost( id, post )
+	data.map( function( category ) {
+		category.posts.map( function( post ) {
+			_loadPost( post.id, post );
+		} );
+	} );
+	_categories = data;
 }
 
 /**
@@ -49,6 +62,15 @@ let PostsStore = assign( {}, EventEmitter.prototype, {
 
 	removeChangeListener: function( callback ) {
 		this.removeListener( CHANGE_EVENT, callback );
+	},
+
+	/**
+	 * Get the post list
+	 *
+	 * @returns {array}
+	 */
+	getPostsByCategory: function() {
+		return _categories;
 	},
 
 	/**
