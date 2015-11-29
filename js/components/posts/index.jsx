@@ -7,6 +7,7 @@ import API from 'utils/api';
 import PostsStore from '../../stores/posts-store';
 import Post from './single';
 import SearchForm from '../search';
+import Pagination from '../pagination';
 
 /**
  * Method to retrieve state from Stores
@@ -19,13 +20,24 @@ function getState() {
 }
 
 let PostList = React.createClass( {
+
+	propTypes: {
+		page: React.PropTypes.number.isRequired,
+	},
+
 	getInitialState: function() {
 		return getState();
 	},
 
 	componentDidMount: function() {
-		API.getPosts( { page: 1 } );
+		API.getPosts( { page: this.props.page } );
 		PostsStore.addChangeListener( this._onChange );
+	},
+
+	componentDidUpdate: function( prevProps, prevState ) {
+		if ( prevProps !== this.props ) {
+			API.getPosts( { page: this.props.page } );
+		}
 	},
 
 	componentWillUnmount: function() {
@@ -106,6 +118,7 @@ let PostList = React.createClass( {
 					posts :
 					this.renderPlaceholder()
 				}
+				<Pagination current={ this.props.page } end={ 10 } />
 			</div>
 		);
 	}

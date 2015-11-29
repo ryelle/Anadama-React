@@ -9,7 +9,7 @@ import Navigation from './navigation';
 import SinglePost from './post';
 
 // Private vars
-var _currentSlug, _currentType;
+var _currentSlug, _currentType, _currentPage;
 
 let Controller = {
 	passThrough: function( context, next ){
@@ -40,6 +40,8 @@ let Controller = {
 		};
 		document.body.className = classNames( bodyClass );
 
+		_currentPage = parseInt( context.params.page ) || 1;
+
 		next();
 	},
 
@@ -54,12 +56,12 @@ let Controller = {
 
 	posts: function() {
 		ReactDOM.render(
-			<PostList />,
+			<PostList page={ _currentPage } />,
 			document.getElementById( 'main' )
 		);
 	},
 
-	post: function( context ) {
+	post: function() {
 		ReactDOM.render(
 			<SinglePost slug={ _currentSlug } type={ _currentType } />,
 			document.getElementById( 'main' )
