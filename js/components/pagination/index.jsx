@@ -20,7 +20,7 @@ let Post = React.createClass( {
 		let prev = this.props.current - 1;
 
 		return (
-			<nav className="navigation posts-navigation" role="navigation">
+			<nav className="navigation posts-navigation clear" role="navigation">
 				<div className="nav-links">
 					{ ( prev > 0 ) ?
 						<div className="nav-previous">

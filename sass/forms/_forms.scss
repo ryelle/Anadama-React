@@ -5,6 +5,7 @@
 .search-form {
 	.search-field {
 		width: 100%;
+		box-sizing: border-box;
 		background: url( $icon__search ) no-repeat 15px center;
 		background-size: 12px 12px;
 	}
