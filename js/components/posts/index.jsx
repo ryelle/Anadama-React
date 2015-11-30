@@ -1,6 +1,7 @@
 // External dependencies
 import React from 'react';
 import filter from 'lodash/collection/filter';
+import clone from 'lodash/lang/clone';
 
 // Internal dependencies
 import API from 'utils/api';
@@ -64,14 +65,23 @@ let PostList = React.createClass( {
 		if ( ! this.state.filter || ( this.state.filter.length < 3 ) ) {
 			return this.state.data;
 		}
-		return filter( this.state.data, ( post, i ) => {
-			if ( 'undefined' === typeof post.title ) {
-				return false;
-			}
-			let title = post.title.rendered.toLowerCase();
-			let search = this.state.filter.toLowerCase();
-			return ( -1 !== title.indexOf( search ) );
+
+		let categories = clone( this.state.data, true );
+
+		categories = categories.map( ( category, i ) => {
+			let filteredPosts = filter( category.posts, ( post, i ) => {
+				if ( 'undefined' === typeof post.title ) {
+					return false;
+				}
+				let title = post.title.rendered.toLowerCase();
+				let search = this.state.filter.toLowerCase();
+				return ( -1 !== title.indexOf( search ) );
+			} );
+			category.posts = filteredPosts;
+			return category;
 		} );
+
+		return categories;
 	},
 
 	renderPlaceholder: function() {
@@ -98,12 +108,15 @@ let PostList = React.createClass( {
 	},
 
 	render: function() {
-		let categories = this.state.data; // { $slug: { name: 'Cake', posts: [ Object, Object ] }, $slug: ... }
+		let categories = this.getPosts();
 		let posts = [];
 
 		this.setTitle();
 
 		for ( let cat of categories ) {
+			if ( cat.posts.length === 0 ) {
+				continue;
+			}
 			posts.push(
 				<div className='post-list' key={ cat.slug }>
 					<h1 className='section-title'>{ cat.name }</h1>
