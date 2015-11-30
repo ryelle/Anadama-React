@@ -12,13 +12,13 @@ import SinglePost from './post';
 var _currentSlug, _currentType, _currentPage;
 
 let Controller = {
-	passThrough: function( context, next ){
-		// Trigger the page load
-		next();
-	},
-
 	setup: function( context, next ) {
 		var path = context.pathname;
+
+		if ( path.match( /\/wp-admin/i ) ) {
+			next();
+		}
+
 		if ( path.substr( -1 ) === '/' ) {
 			path = path.substr( 0, path.length - 1 );
 		}
