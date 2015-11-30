@@ -32,8 +32,8 @@ let PostList = React.createClass( {
 	},
 
 	componentDidMount: function() {
-		API.getPosts( { page: this.props.page } );
 		PostsStore.addChangeListener( this._onChange );
+		API.getPosts( { page: this.props.page } );
 	},
 
 	componentDidUpdate: function( prevProps, prevState ) {

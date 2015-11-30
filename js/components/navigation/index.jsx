@@ -57,8 +57,8 @@ let Navigation = React.createClass( {
 	},
 
 	componentDidMount: function() {
-		API.getMenu( '/menu-locations/primary/' );
 		NavigationStore.addChangeListener( this._onChange );
+		API.getMenu( '/menu-locations/primary/' );
 	},
 
 	componentWillUnmount: function() {
