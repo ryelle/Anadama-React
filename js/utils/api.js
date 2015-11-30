@@ -45,6 +45,10 @@ export default {
 				requests.push( _get( AnadamaSettings.URL.root + '/posts/', { 'filter': { 'category_name': category.slug }} ) );
 			} );
 			jQuery.when( ...requests ).done( function( ...results ) {
+				// If `results` is just one request's results, make sure it's the expected format.
+				if ( 'string' === typeof results[1] ) {
+					results = [ results ];
+				}
 				results.map( function( result, i ) {
 					if ( 'success' === result[1] ) {
 						// Successful response from API
