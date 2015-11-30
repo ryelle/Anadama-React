@@ -10,8 +10,8 @@ import NavActions from '../actions/nav-actions';
 var _noop = function() {};
 
 var _get = function( url, data ) {
-	let cacheKey = url.replace( AnadamaSettings.URL.base, '' );
-	let postData = false; // JSON.parse( localStorage.getItem( cacheKey ) );
+	let cacheKey = url.replace( AnadamaSettings.URL.base, '' ) + JSON.stringify( data );
+	let postData = JSON.parse( localStorage.getItem( cacheKey ) );
 	if ( postData ) {
 		let dfd = jQuery.Deferred();
 		return dfd.resolve( postData );
@@ -39,7 +39,12 @@ export default {
 		jQuery.when(
 			_get( url, args )
 		).done( function( data, status, request ) {
-			PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
+			if ( 'undefined' !== typeof request ) {
+				PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
+				localStorage.setItem( 'category-pagination-limit', request.getResponseHeader( 'X-WP-TotalPages' ) );
+			} else {
+				PostActions.fetchPaginationLimit( localStorage.getItem( 'category-pagination-limit' ) );
+			}
 			let requests = [];
 			data.map( function( category, i ) {
 				requests.push( _get(
