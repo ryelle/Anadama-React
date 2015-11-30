@@ -42,7 +42,15 @@ export default {
 			PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
 			let requests = [];
 			data.map( function( category, i ) {
-				requests.push( _get( AnadamaSettings.URL.root + '/posts/', { 'filter': { 'category_name': category.slug }} ) );
+				requests.push( _get(
+					AnadamaSettings.URL.root + '/posts/',
+					{
+						'per_page': 20,
+						'filter': {
+							'category_name': category.slug
+						}
+					}
+				) );
 			} );
 			jQuery.when( ...requests ).done( function( ...results ) {
 				// If `results` is just one request's results, make sure it's the expected format.

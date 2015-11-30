@@ -24,8 +24,10 @@ Since this is a more "experimental" theme, you'll need to have a few things set 
 Display & Features
 ------------------
 
-The theme will show the latest 20 posts, and order them by category. Currently, there is no "next page" for displaying more than 20 posts, but that's in-progress.
+The front page of this theme displays 10 categories (ordered by term ID, which corresponds to date created) and the 20 most recent posts in each category.
 
 This theme has no sidebars, widgets, or comments.
 
 It uses (or will soon) Local Storage to hold posts for offline/faster response time.
+
+Sites that have no content won't appear to load.
