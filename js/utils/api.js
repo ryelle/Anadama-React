@@ -38,7 +38,8 @@ export default {
 
 		jQuery.when(
 			_get( url, args )
-		).done( function( data ) {
+		).done( function( data, status, request ) {
+			PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
 			let requests = [];
 			data.map( function( category, i ) {
 				requests.push( _get( AnadamaSettings.URL.root + '/posts/', { 'filter': { 'category_name': category.slug }} ) );

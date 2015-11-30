@@ -23,6 +23,13 @@ var _posts = [];
 var _categories = [];
 
 /**
+ * The total number of category pages
+ * @type {int}
+ * @protected
+ */
+var _total_cat_pages = 1;
+
+/**
  * Load this array into our posts list
  *
  * @param {array} data - array of posts, pulled from API
@@ -35,6 +42,15 @@ function _loadPosts( data ) {
 		} );
 	} );
 	_categories = data;
+}
+
+/**
+ * Load the number into the category total container
+ *
+ * @param {int} total - total category pages available, pulled from API
+ */
+function _loadPaginationLimit( total ) {
+	_total_cat_pages = parseInt( total );
 }
 
 /**
@@ -74,6 +90,15 @@ let PostsStore = assign( {}, EventEmitter.prototype, {
 	},
 
 	/**
+	 * Get the number of available category pages
+	 *
+	 * @returns {array}
+	 */
+	getPaginationLimit: function() {
+		return _total_cat_pages;
+	},
+
+	/**
 	 * Get the post list
 	 *
 	 * @returns {array}
@@ -105,6 +130,9 @@ let PostsStore = assign( {}, EventEmitter.prototype, {
 				break;
 			case AppConstants.REQUEST_POST_SUCCESS:
 				_loadPost( action.id, action.data );
+				break;
+			case AppConstants.REQUEST_PAGINATION_LIMIT:
+				_loadPaginationLimit( action.data );
 				break;
 		}
 

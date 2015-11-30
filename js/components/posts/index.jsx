@@ -15,6 +15,7 @@ import Pagination from '../pagination';
 function getState() {
 	return {
 		data: PostsStore.getPostsByCategory(),
+		paginationLimit: PostsStore.getPaginationLimit(),
 		filter: '',
 	};
 }
@@ -118,7 +119,7 @@ let PostList = React.createClass( {
 					posts :
 					this.renderPlaceholder()
 				}
-				<Pagination current={ this.props.page } end={ 10 } />
+				<Pagination current={ this.props.page } end={ this.state.paginationLimit } />
 			</div>
 		);
 	}

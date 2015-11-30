@@ -12,6 +12,13 @@ export default {
 		} );
 	},
 
+	fetchPaginationLimit: function( total ) {
+		AppDispatcher.handleViewAction( {
+			actionType: AppConstants.REQUEST_PAGINATION_LIMIT,
+			data: total
+		} );
+	},
+
 	/**
 	 * @param  {array}  posts
 	 */
