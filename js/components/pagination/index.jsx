@@ -24,7 +24,10 @@ let Post = React.createClass( {
 				<div className="nav-links">
 					{ ( prev > 0 ) ?
 						<div className="nav-previous">
-							<a href={ `/page/${ prev }/` }>Previous Page</a>
+							{ ( prev === 1 ) ?
+								<a href={ `/` }>Previous Page</a> :
+								<a href={ `/page/${ prev }/` }>Previous Page</a>
+							}
 						</div> :
 						null
 					}
