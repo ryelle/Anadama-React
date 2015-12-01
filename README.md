@@ -39,3 +39,4 @@ Known Issues/To Do
  - Make the recipe's "Print" button work (related to Jetpack scripts)
  - Responsive styles + a good print stylesheet for recipe pages
  - Cached data might stick around forever, maybe not the best idea for post list pages.
+ - Category/Tag archives don't exist yet
