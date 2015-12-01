@@ -10,7 +10,7 @@ Want to try out the theme? Download or clone this repo into your `/themes` folde
 	npm install
 	gulp
 
-Now you'll see a `js/app.js` file in the theme, and it will be available for you to switch to in wp-admin.
+Now you'll see a `js/app.js` file in the theme, and it will be available for you to switch to in wp-admin. If you're having trouble getting the theme active, please [file an issue](https://github.com/ryelle/Anadama-React/issues) & I'll help you out.
 
 _If you don't have npm or gulp installed, you can find instructions on their websites: [gulp](http://gulpjs.com/), [npm](http://npmjs.com)._
 
