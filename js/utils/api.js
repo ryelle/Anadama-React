@@ -29,8 +29,8 @@ var _get = function( url, data ) {
 
 export default {
 
-	// Get /posts/, then for each post, get the categories.
-	// args might have pagination.
+	// Get some categories, then for each category, get a few posts.
+	// args: might have pagination.
 	getPosts: function( args ) {
 		let url = AnadamaSettings.URL.root + '/terms/category/';
 		args.hide_empty = true
