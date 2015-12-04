@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 // Components
-import PostList from './posts';
 import Navigation from './navigation';
+import PostList from './posts';
 import SinglePost from './post';
 
 // Private vars
