@@ -1,6 +1,5 @@
 // External dependencies
 import React from 'react';
-import page from 'page';
 import classNames from 'classnames';
 
 // Internal dependencies
