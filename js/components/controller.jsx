@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 // Components
 import Navigation from './navigation';
-import PostList from './posts';
+import CategoryList from './posts';
 import SinglePost from './post';
 import Term from './term';
 
@@ -62,7 +62,7 @@ let Controller = {
 
 	posts: function() {
 		ReactDOM.render(
-			<PostList page={ _currentPage } />,
+			<CategoryList page={ _currentPage } />,
 			document.getElementById( 'main' )
 		);
 	},

@@ -6,7 +6,7 @@ import clone from 'lodash/lang/clone';
 // Internal dependencies
 import API from 'utils/api';
 import PostsStore from '../../stores/posts-store';
-import Post from './single';
+import PostList from './list';
 import SearchForm from '../search';
 import Pagination from '../pagination';
 
@@ -21,7 +21,7 @@ function getState() {
 	};
 }
 
-let PostList = React.createClass( {
+let CategoryList = React.createClass( {
 
 	propTypes: {
 		page: React.PropTypes.number.isRequired,
@@ -95,18 +95,6 @@ let PostList = React.createClass( {
 		);
 	},
 
-	renderPosts: function( posts ) {
-		posts = posts.map( function( post, i ) {
-			return <Post key={ 'post-' + i } { ...post } />
-		} );
-
-		return (
-			<ol className="site-main">
-				{ posts }
-			</ol>
-		);
-	},
-
 	render: function() {
 		let categories = this.getPosts();
 		let posts = [];
@@ -120,7 +108,7 @@ let PostList = React.createClass( {
 			posts.push(
 				<div className='post-list' key={ cat.slug }>
 					<h1 className='section-title'>{ cat.name }</h1>
-					{ this.renderPosts( cat.posts ) }
+					<PostList posts={ cat.posts } />
 				</div>
 			);
 		};
@@ -138,4 +126,4 @@ let PostList = React.createClass( {
 	}
 } );
 
-export default PostList;
+export default CategoryList;

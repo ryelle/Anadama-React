@@ -7,7 +7,7 @@ import keyMirror from 'keymirror';
 // *-actions/*-store files if necessary.
 
 export default keyMirror( {
-	// PostList actions
+	// Post List actions
 	REQUEST_POSTS: null,
 	REQUEST_POSTS_SUCCESS: null,
 	REQUEST_POSTS_ERROR: null,
