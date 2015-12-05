@@ -5,6 +5,7 @@ import classNames from 'classnames';
 // Internal dependencies
 import API from 'utils/api';
 import PostsStore from '../../stores/posts-store';
+import TermStore from '../../stores/term-store';
 import PostList from '../posts/list';
 import Pagination from '../pagination';
 
@@ -13,7 +14,8 @@ import Pagination from '../pagination';
  */
 function getState( term ) {
 	return {
-		data: PostsStore.getTerm( term )
+		data: TermStore.getTerm( term ),
+		posts: PostsStore.getPosts(),
 	};
 }
 
@@ -30,17 +32,35 @@ let Term = React.createClass( {
 	},
 
 	componentDidMount: function() {
+		let filter = {};
+		if ( 'category' === this.props.taxonomy ) {
+			filter.category_name = this.props.term;
+		} else {
+			filter.tag = this.props.term;
+		}
+
+		TermStore.addChangeListener( this._onChange );
 		PostsStore.addChangeListener( this._onChange );
+
 		API.getTerm( this.props );
+		// API.getPosts( filter ); -- Not the right API call
 	},
 
 	componentDidUpdate: function( prevProps, prevState ) {
 		if ( prevProps !== this.props ) {
+			let filter = {};
+			if ( 'category' === this.props.taxonomy ) {
+				filter.category_name = this.props.term;
+			} else {
+				filter.tag = this.props.term;
+			}
 			API.getTerm( this.props );
+			// API.getPosts( filter ); -- Not the right API call
 		}
 	},
 
 	componentWillUnmount: function() {
+		TermStore.removeChangeListener( this._onChange );
 		PostsStore.removeChangeListener( this._onChange );
 	},
 
@@ -67,7 +87,7 @@ let Term = React.createClass( {
 						null
 					}
 				</header>
-				<PostList posts={ [] } />
+				<PostList posts={ this.state.posts } />
 			</div>
 		);
 	}

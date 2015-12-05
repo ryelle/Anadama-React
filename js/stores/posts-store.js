@@ -16,13 +16,6 @@ var CHANGE_EVENT = 'change';
 var _posts = [];
 
 /**
- * Our working term list, read-only
- * @type {array}
- * @protected
- */
-var _terms = [];
-
-/**
  * Our working posts-by-category list, read-only
  * @type {array}
  * @protected
@@ -49,20 +42,6 @@ function _loadPosts( data ) {
 		} );
 	} );
 	_categories = data;
-}
-
-/**
- * Load this array into our posts list
- *
- * @param {array} data - array of posts, pulled from API
- */
-function _loadTerm( id, data ) {
-	var key = findIndex( _terms, function( _term ) {
-		return parseInt( id ) === parseInt( _term.id );
-	} );
-	if ( -1 === key ) {
-		_terms.push( data );
-	}
 }
 
 /**
@@ -141,19 +120,6 @@ let PostsStore = assign( {}, EventEmitter.prototype, {
 		return post;
 	},
 
-	/**
-	 * Get the current term
-	 *
-	 * @returns {array}
-	 */
-	getTerm: function( slug ) {
-		var term = find( _terms, function( _term ) {
-			return slug === _term.slug;
-		} );
-		term = term || {};
-		return term;
-	},
-
 	// Watch for store actions, and dispatch the above functions as necessary.
 	dispatcherIndex: AppDispatcher.register( function( payload ) {
 		var action = payload.action; // this is our action from handleViewAction
@@ -161,9 +127,6 @@ let PostsStore = assign( {}, EventEmitter.prototype, {
 		switch ( action.actionType ) {
 			case AppConstants.REQUEST_POSTS_SUCCESS:
 				_loadPosts( action.data );
-				break;
-			case AppConstants.REQUEST_TERM_SUCCESS:
-				_loadTerm( action.id, action.data );
 				break;
 			case AppConstants.REQUEST_POST_SUCCESS:
 				_loadPost( action.id, action.data );

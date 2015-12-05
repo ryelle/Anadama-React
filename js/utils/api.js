@@ -5,6 +5,7 @@ import first from 'lodash/array/first';
  * Internal dependencies
  */
 import PostActions from '../actions/post-actions';
+import TermActions from '../actions/term-actions';
 import NavActions from '../actions/nav-actions';
 
 var _noop = function() {};
@@ -27,6 +28,16 @@ var _get = function( url, data ) {
 	} );
 };
 
+var _getPagination = function( url, data, request ) {
+	let cacheKey = url.replace( AnadamaSettings.URL.base, '' ) + JSON.stringify( data ) + '-pages';
+	if ( 'undefined' !== typeof request ) {
+		PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
+		localStorage.setItem( cacheKey, request.getResponseHeader( 'X-WP-TotalPages' ) );
+	} else {
+		PostActions.fetchPaginationLimit( localStorage.getItem( cacheKey ) );
+	}
+};
+
 export default {
 
 	// Get some categories, then for each category, get a few posts.
@@ -39,12 +50,7 @@ export default {
 		jQuery.when(
 			_get( url, args )
 		).done( function( data, status, request ) {
-			if ( 'undefined' !== typeof request ) {
-				PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
-				localStorage.setItem( 'category-pagination-limit', request.getResponseHeader( 'X-WP-TotalPages' ) );
-			} else {
-				PostActions.fetchPaginationLimit( localStorage.getItem( 'category-pagination-limit' ) );
-			}
+			_getPagination( url, data, request ); // Set the page limit in PostsStore
 			let requests = [];
 			data.map( function( category, i ) {
 				requests.push( _get(
@@ -94,7 +100,7 @@ export default {
 			if ( data.constructor === Array ) {
 				data = first( data );
 			}
-			PostActions.fetchTerm( data );
+			TermActions.fetch( data );
 		} );
 	},
 
@@ -123,5 +129,5 @@ export default {
 		} ).fail( function( request, status, message ) {
 			NavActions.fetchFailed( message, request );
 		} );
-	}
+	},
 };
