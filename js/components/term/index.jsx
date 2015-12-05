@@ -5,7 +5,7 @@ import classNames from 'classnames';
 // Internal dependencies
 import API from 'utils/api';
 import PostsStore from '../../stores/posts-store';
-import Post from '../posts/single';
+import PostList from '../posts/list';
 import Pagination from '../pagination';
 
 /**
@@ -67,7 +67,7 @@ let Term = React.createClass( {
 						null
 					}
 				</header>
-				<div>Posts will go here</div>
+				<PostList posts={ [] } />
 			</div>
 		);
 	}
