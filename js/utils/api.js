@@ -80,6 +80,24 @@ export default {
 		} );
 	},
 
+	// Get posts in a category
+	// args: term, taxonomy
+	getTerm: function( args ) {
+		let url = `${AnadamaSettings.URL.root}/terms/${args.taxonomy}/`;
+		args = {
+			search: args.term
+		};
+
+		jQuery.when(
+			_get( url, args )
+		).done( function( data, status, request ) {
+			if ( data.constructor === Array ) {
+				data = first( data );
+			}
+			PostActions.fetchTerm( data );
+		} );
+	},
+
 	// Get /{post_type}/?filter[name]={slug}
 	getPost: function( slug, type ) {
 		let url = `${AnadamaSettings.URL.root}/${type}s/?filter[name]=${slug}`;

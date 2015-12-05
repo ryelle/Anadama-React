@@ -17,6 +17,8 @@ import Controller from './components/controller';
 
 page( '/',           Controller.setup, Controller.navigation, Controller.posts );
 page( '/page/:page', Controller.setup, Controller.navigation, Controller.posts );
+page( '/category/:term', Controller.setup, Controller.navigation, Controller.term );
+page( '/tag/:term', Controller.setup, Controller.navigation, Controller.term );
 
 page( /^\/(?!wp-admin).*/, Controller.setup, Controller.navigation, Controller.post );
 

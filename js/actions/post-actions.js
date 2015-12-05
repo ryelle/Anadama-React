@@ -12,6 +12,17 @@ export default {
 		} );
 	},
 
+	/**
+	 * @param  {object}  term
+	 */
+	fetchTerm: function( term ) {
+		AppDispatcher.handleViewAction( {
+			actionType: AppConstants.REQUEST_TERM_SUCCESS,
+			id: term.id,
+			data: term
+		} );
+	},
+
 	fetchPaginationLimit: function( total ) {
 		AppDispatcher.handleViewAction( {
 			actionType: AppConstants.REQUEST_PAGINATION_LIMIT,

@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import Navigation from './navigation';
 import PostList from './posts';
 import SinglePost from './post';
+import Term from './term';
 
 // Private vars
 var _currentSlug, _currentType, _currentPage;
@@ -29,6 +30,11 @@ let Controller = {
 		_currentType = 'post';
 		if ( ! path.match( /\d{4}\/\d{2}/ ) ) {
 			_currentType = 'page';
+		}
+
+		if ( 'undefined' !== context.term ) {
+			_currentSlug = context.params.term;
+			_currentType = 'category';
 		}
 
 		let bodyClass = {
@@ -57,6 +63,13 @@ let Controller = {
 	posts: function() {
 		ReactDOM.render(
 			<PostList page={ _currentPage } />,
+			document.getElementById( 'main' )
+		);
+	},
+
+	term: function() {
+		ReactDOM.render(
+			<Term page={ _currentPage } term={ _currentSlug } taxonomy={ _currentType } />,
 			document.getElementById( 'main' )
 		);
 	},
