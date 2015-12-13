@@ -43,7 +43,7 @@ export default {
 	// Get some categories, then for each category, get a few posts.
 	// args: might have pagination.
 	getPosts: function( args ) {
-		let url = AnadamaSettings.URL.root + '/terms/category/';
+		let url = AnadamaSettings.URL.root + '/categories/';
 		args.hide_empty = true
 		args.per_page = 10;
 
@@ -89,7 +89,7 @@ export default {
 	// Get posts in a category
 	// args: term, taxonomy
 	getTerm: function( args ) {
-		let url = `${AnadamaSettings.URL.root}/terms/${args.taxonomy}/`;
+		let url = `${AnadamaSettings.URL.root}/${args.taxonomy}/`;
 		args = {
 			search: args.term
 		};

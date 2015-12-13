@@ -33,7 +33,7 @@ let Term = React.createClass( {
 
 	componentDidMount: function() {
 		let filter = {};
-		if ( 'category' === this.props.taxonomy ) {
+		if ( 'categories' === this.props.taxonomy ) {
 			filter.category_name = this.props.term;
 		} else {
 			filter.tag = this.props.term;
@@ -49,7 +49,7 @@ let Term = React.createClass( {
 	componentDidUpdate: function( prevProps, prevState ) {
 		if ( prevProps !== this.props ) {
 			let filter = {};
-			if ( 'category' === this.props.taxonomy ) {
+			if ( 'categories' === this.props.taxonomy ) {
 				filter.category_name = this.props.term;
 			} else {
 				filter.tag = this.props.term;
