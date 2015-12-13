@@ -32,7 +32,7 @@ let Controller = {
 			_currentType = 'page';
 		}
 
-		if ( 'undefined' !== typeof context.term ) {
+		if ( 'undefined' !== typeof context.params.term ) {
 			_currentSlug = context.params.term;
 			_currentType = 'category';
 		}
