@@ -19,7 +19,7 @@ Setup
 
 Since this is a more "experimental" theme, you'll need to have a few things set up before it'll work.
 
-1. You'll need the [WP REST API plugin](https://wordpress.org/plugins/rest-api/). WP 4.4 has the framework for the REST API, but the actual content of it still requires the plugin.
+1. You'll need the [WP REST API plugin version 2.0-beta9](https://wordpress.org/plugins/rest-api/). WP 4.4 has the framework for the REST API, but the actual content of it still requires the plugin.
 2. You'll also need this [WP-API Menus plugin](https://wordpress.org/plugins/wp-api-menus/). The REST API doesn't provide an endpoint for menus, so another plugin is necessary.
 3. Your permalinks will need to be set to `/%year%/%monthnum%/%postname%/`. Single-post/page views will not work without permalinks set.
 
