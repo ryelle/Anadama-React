@@ -87,7 +87,9 @@ let Term = React.createClass( {
 						null
 					}
 				</header>
-				<PostList posts={ this.state.posts } />
+				<div className="post-list">
+					<PostList posts={ this.state.posts } />
+				</div>
 			</div>
 		);
 	}
