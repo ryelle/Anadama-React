@@ -1,3 +1,4 @@
+/* global AnadamaSettings */
 // External dependencies
 import React from 'react';
 import filter from 'lodash/collection/filter';
@@ -37,7 +38,7 @@ let CategoryList = React.createClass( {
 		API.getPosts( { page: this.props.page } );
 	},
 
-	componentDidUpdate: function( prevProps, prevState ) {
+	componentDidUpdate: function( prevProps ) {
 		if ( ! isEqual( prevProps, this.props ) ) {
 			API.getPosts( { page: this.props.page } );
 		}
@@ -55,7 +56,7 @@ let CategoryList = React.createClass( {
 		document.title = AnadamaSettings.title;
 	},
 
-	search: function( event ) {
+	search: function() {
 		let term = this.refs.searchForm.getValue();
 		this.setState( {
 			filter: term,
@@ -69,8 +70,8 @@ let CategoryList = React.createClass( {
 
 		let categories = clone( this.state.data, true );
 
-		categories = categories.map( ( category, i ) => {
-			let filteredPosts = filter( category.posts, ( post, i ) => {
+		categories = categories.map( ( category ) => {
+			let filteredPosts = filter( category.posts, ( post ) => {
 				if ( 'undefined' === typeof post.title ) {
 					return false;
 				}
