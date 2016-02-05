@@ -2,6 +2,7 @@
 import React from 'react';
 import filter from 'lodash/collection/filter';
 import clone from 'lodash/lang/clone';
+import isEqual from 'lodash/lang/isEqual';
 
 // Internal dependencies
 import API from 'utils/api';
@@ -37,7 +38,7 @@ let CategoryList = React.createClass( {
 	},
 
 	componentDidUpdate: function( prevProps, prevState ) {
-		if ( prevProps !== this.props ) {
+		if ( ! isEqual( prevProps, this.props ) ) {
 			API.getPosts( { page: this.props.page } );
 		}
 	},
