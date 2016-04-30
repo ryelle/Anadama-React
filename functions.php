@@ -108,18 +108,11 @@ function anadama_scripts() {
 	// If the front page type is a page, get the page post data.
 	// Otherwise the front page type will be posts
 	if ( $front_page_type == 'page' ) {
-		// Get current url path from server
-		$uri = $_SERVER[ 'REQUEST_URI' ];
-		// Compare the current url to WordPress base path
-		if ( strlen( $uri ) > 1 &&
-			$uri == $base_path . '/' ) {
-			// Confirmed current url matches WordPress base path so let's retrieve
-			// the front page post data to pass to the AnadamaSettings Javascript global
+			// Retrieve the front page post data to pass to the AnadamaSettings Javascript global
 			$front_page_id = get_option( 'page_on_front' );
 			$front_page = get_post( $front_page_id );
 			$front_page_slug = $front_page->post_name;
-		}
-	};
+	}
 
 	wp_enqueue_style( 'anadama-style', get_stylesheet_uri() );
 	wp_enqueue_script( 'anadama-react', get_template_directory_uri() . '/js/app.js', array( 'jquery' ), ANADAMA_VERSION, true );

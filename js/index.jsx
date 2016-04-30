@@ -13,7 +13,7 @@ import page from 'page';
 // Internal dependencies
 import Controller from './components/controller';
 
-let basePath = window.AnadamaSettings.URL.basePath || '/';
+let basePath = window.AnadamaSettings.URL.basePath || '';
 
 page.base( basePath );
 
