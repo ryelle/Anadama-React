@@ -13,9 +13,16 @@ import page from 'page';
 // Internal dependencies
 import Controller from './components/controller';
 
-// page.base( '/' );
+let basePath = window.AnadamaSettings.URL.basePath || '/';
 
-page( '/',           Controller.setup, Controller.navigation, Controller.posts );
+page.base( basePath );
+
+if ( window.AnadamaSettings.URL.frontPageType === 'page' ) {
+  page( '/', Controller.setup, Controller.navigation, Controller.post );
+} else {
+  page( '/', Controller.setup, Controller.navigation, Controller.posts );
+}
+
 page( '/page/:page', Controller.setup, Controller.navigation, Controller.posts );
 page( '/category/:term', Controller.setup, Controller.navigation, Controller.term );
 page( '/tag/:term', Controller.setup, Controller.navigation, Controller.term );
