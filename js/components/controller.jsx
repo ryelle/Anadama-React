@@ -27,6 +27,10 @@ let Controller = {
 			_currentSlug = path.substring( path.lastIndexOf( '/' ) + 1 );
 		}
 
+		if ( path === window.AnadamaSettings.URL.basePath ) {
+			_currentSlug = AnadamaSettings.URL.frontPageSlug;
+		}
+
 		_currentType = 'post';
 		if ( ! path.match( /\d{4}\/\d{2}/ ) ) {
 			_currentType = 'page';
