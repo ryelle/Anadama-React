@@ -97,6 +97,23 @@ add_action( 'after_setup_theme', 'anadama_content_width', 0 );
  * Enqueue scripts and styles.
  */
 function anadama_scripts() {
+	// Parse the blog's base path using parse_url()'s PHP_URL_PATH argument
+	$base_path = parse_url( esc_url_raw( home_url() ), PHP_URL_PATH );
+	// If the result of the parse_url is empty, assign / as the base path
+	$base_path = ( empty( $base_path ) ) ? '/' : $base_path;
+	// initialize front page slug as empty
+	$front_page_slug = '';
+	// Get the theme's front page type from the options database
+	$front_page_type = get_option( 'show_on_front' );
+	// If the front page type is a page, get the page post data.
+	// Otherwise the front page type will be posts
+	if ( $front_page_type == 'page' ) {
+			// Retrieve the front page post data to pass to the AnadamaSettings Javascript global
+			$front_page_id = get_option( 'page_on_front' );
+			$front_page = get_post( $front_page_id );
+			$front_page_slug = $front_page->post_name;
+	}
+
 	wp_enqueue_style( 'anadama-style', get_stylesheet_uri() );
 	wp_enqueue_script( 'anadama-react', get_template_directory_uri() . '/js/app.js', array( 'jquery' ), ANADAMA_VERSION, true );
 
@@ -108,6 +125,9 @@ function anadama_scripts() {
 			'root' => esc_url_raw( get_rest_url( null, '/wp/v2' ) ),
 			'menuRoot' => esc_url_raw( get_rest_url( null, '/wp-api-menus/v2' ) ),
 			'base' => esc_url_raw( home_url() ),
+			'basePath' => $base_path,
+			'frontPageType' => $front_page_type,
+			'frontPageSlug' => $front_page_slug,
 		),
 	) );
 }

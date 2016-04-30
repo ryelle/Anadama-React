@@ -11,6 +11,7 @@ import Term from './term';
 
 // Private vars
 var _currentSlug, _currentType, _currentPage;
+var frontPage = false;
 
 let Controller = {
 	setup: function( context, next ) {
@@ -25,6 +26,11 @@ let Controller = {
 		}
 		if ( path.length ) {
 			_currentSlug = path.substring( path.lastIndexOf( '/' ) + 1 );
+		}
+
+		if ( path === window.AnadamaSettings.URL.basePath ) {
+			frontPage = true;
+			_currentSlug = AnadamaSettings.URL.frontPageSlug;
 		}
 
 		_currentType = 'post';
@@ -76,7 +82,7 @@ let Controller = {
 
 	post: function() {
 		ReactDOM.render(
-			<SinglePost slug={ _currentSlug } type={ _currentType } />,
+			<SinglePost slug={ _currentSlug } type={ _currentType } frontPage={ frontPage } />,
 			document.getElementById( 'main' )
 		);
 	},
