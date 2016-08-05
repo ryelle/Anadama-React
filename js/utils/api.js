@@ -1,4 +1,4 @@
-/* global jQuery */
+/* global jQuery AnadamaSettings */
 import first from 'lodash/array/first';
 
 /**
@@ -8,13 +8,11 @@ import PostActions from '../actions/post-actions';
 import TermActions from '../actions/term-actions';
 import NavActions from '../actions/nav-actions';
 
-var _noop = function() {};
-
 var _get = function( url, data ) {
-	let cacheKey = url.replace( AnadamaSettings.URL.base, '' ) + JSON.stringify( data );
+	let cacheKey = url.replace( AnadamaSettings.URL.root, '' ) + JSON.stringify( data );
 	let postData = JSON.parse( localStorage.getItem( cacheKey ) );
 	if ( postData ) {
-		let dfd = jQuery.Deferred();
+		let dfd = new jQuery.Deferred;
 		return dfd.resolve( postData );
 	}
 
@@ -22,14 +20,14 @@ var _get = function( url, data ) {
 		url: url,
 		data: data,
 		dataType: 'json',
-		success: ( data ) => {
-			localStorage.setItem( cacheKey, JSON.stringify( data ) );
+		success: ( returnData ) => {
+			localStorage.setItem( cacheKey, JSON.stringify( returnData ) );
 		}
 	} );
 };
 
 var _getPagination = function( url, data, request ) {
-	let cacheKey = url.replace( AnadamaSettings.URL.base, '' ) + JSON.stringify( data ) + '-pages';
+	let cacheKey = url.replace( AnadamaSettings.URL.root, '' ) + JSON.stringify( data ) + '-pages';
 	if ( 'undefined' !== typeof request ) {
 		PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
 		localStorage.setItem( cacheKey, request.getResponseHeader( 'X-WP-TotalPages' ) );
@@ -43,8 +41,8 @@ export default {
 	// Get some categories, then for each category, get a few posts.
 	// args: might have pagination.
 	getPosts: function( args ) {
-		let url = AnadamaSettings.URL.root + '/categories/';
-		args.hide_empty = true
+		let url = AnadamaSettings.URL.api + '/categories/';
+		// args.hide_empty = true; // disabled until the API fixes boolean params
 		args.per_page = 10;
 
 		jQuery.when(
@@ -52,13 +50,13 @@ export default {
 		).done( function( data, status, request ) {
 			_getPagination( url, data, request ); // Set the page limit in PostsStore
 			let requests = [];
-			data.map( function( category, i ) {
+			data.map( function( category ) {
 				requests.push( _get(
-					AnadamaSettings.URL.root + '/posts/',
+					AnadamaSettings.URL.api + '/posts/',
 					{
-						'per_page': 20,
-						'filter': {
-							'category_name': category.slug
+						per_page: 20,
+						filter: {
+							category_name: category.slug
 						}
 					}
 				) );
@@ -89,14 +87,14 @@ export default {
 	// Get posts in a category
 	// args: term, taxonomy
 	getTerm: function( args ) {
-		let url = `${AnadamaSettings.URL.root}/${args.taxonomy}/`;
+		let url = `${AnadamaSettings.URL.api}/${args.taxonomy}/`;
 		args = {
 			search: args.term
 		};
 
 		jQuery.when(
 			_get( url, args )
-		).done( function( data, status, request ) {
+		).done( function( data ) {
 			if ( data.constructor === Array ) {
 				data = first( data );
 			}
@@ -106,7 +104,7 @@ export default {
 
 	// Get /{post_type}/?filter[name]={slug}
 	getPost: function( slug, type ) {
-		let url = `${AnadamaSettings.URL.root}/${type}s/?filter[name]=${slug}`;
+		let url = `${AnadamaSettings.URL.api}/${type}s/?filter[name]=${slug}`;
 
 		jQuery.when(
 			_get( url, {} )
@@ -120,7 +118,7 @@ export default {
 
 	// Get /wp-api-menus/v2/menu-locations/:location
 	getMenu: function( path ) {
-		let url = AnadamaSettings.URL.menuRoot + path;
+		let url = AnadamaSettings.URL.menuApi + path;
 
 		jQuery.when(
 			_get( url, {} )
