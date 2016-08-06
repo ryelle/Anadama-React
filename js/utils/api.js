@@ -8,8 +8,8 @@ import PostActions from '../actions/post-actions';
 import TermActions from '../actions/term-actions';
 import NavActions from '../actions/nav-actions';
 
-var _get = function( url, data ) {
-	let cacheKey = url.replace( AnadamaSettings.URL.root, '' ) + JSON.stringify( data );
+const _get = function( url, data ) {
+	const cacheKey = url.replace( AnadamaSettings.URL.root, '' ) + JSON.stringify( data );
 	let postData = JSON.parse( localStorage.getItem( cacheKey ) );
 	if ( postData ) {
 		let dfd = new jQuery.Deferred;
@@ -26,8 +26,8 @@ var _get = function( url, data ) {
 	} );
 };
 
-var _getPagination = function( url, data, request ) {
-	let cacheKey = url.replace( AnadamaSettings.URL.root, '' ) + JSON.stringify( data ) + '-pages';
+const _getPagination = function( url, data, request ) {
+	const cacheKey = url.replace( AnadamaSettings.URL.root, '' ) + JSON.stringify( data ) + '-pages';
 	if ( 'undefined' !== typeof request ) {
 		PostActions.fetchPaginationLimit( request.getResponseHeader( 'X-WP-TotalPages' ) );
 		localStorage.setItem( cacheKey, request.getResponseHeader( 'X-WP-TotalPages' ) );
@@ -41,7 +41,7 @@ export default {
 	// Get some categories, then for each category, get a few posts.
 	// args: might have pagination.
 	getPosts: function( args ) {
-		let url = AnadamaSettings.URL.api + '/categories/';
+		const url = AnadamaSettings.URL.api + '/categories/';
 		// args.hide_empty = true; // disabled until the API fixes boolean params
 		args.per_page = 10;
 
@@ -49,7 +49,7 @@ export default {
 			_get( url, args )
 		).done( function( data, status, request ) {
 			_getPagination( url, data, request ); // Set the page limit in PostsStore
-			let requests = [];
+			const requests = [];
 			data.map( function( category ) {
 				requests.push( _get(
 					AnadamaSettings.URL.api + '/posts/',
@@ -69,13 +69,13 @@ export default {
 				results.map( function( result, i ) {
 					if ( 'success' === result[1] ) {
 						// Successful response from API
-						data[i].posts = result[0];
+						data[ i ].posts = result[ 0 ];
 					} else if ( 'string' === typeof result[1] ) {
 						// Unsuccessful response from API
-						data[i].posts = [];
+						data[ i ].posts = [];
 					} else {
 						// Pulled data from localStorage
-						data[i].posts = result;
+						data[ i ].posts = result;
 					}
 				} );
 
@@ -85,9 +85,24 @@ export default {
 	},
 
 	// Get posts in a category
+	getPostsInTerm: function( filter = {} ) {
+		const url = AnadamaSettings.URL.api + '/posts/';
+		const args = {
+			filter: filter,
+			per_page: 20,
+		};
+
+		jQuery.when(
+			_get( url, args )
+		).done( function( data ) {
+			// Fetch expects an array of arrays, thanks to the category setup above.
+			PostActions.fetch( [ { posts: data } ] );
+		} );
+	},
+
 	// args: term, taxonomy
 	getTerm: function( args ) {
-		let url = `${AnadamaSettings.URL.api}/${args.taxonomy}/`;
+		const url = `${AnadamaSettings.URL.api}/${args.taxonomy}/`;
 		args = {
 			search: args.term
 		};
@@ -104,7 +119,7 @@ export default {
 
 	// Get /{post_type}/?filter[name]={slug}
 	getPost: function( slug, type ) {
-		let url = `${AnadamaSettings.URL.api}/${type}s/?filter[name]=${slug}`;
+		const url = `${AnadamaSettings.URL.api}/${type}s/?filter[name]=${slug}`;
 
 		jQuery.when(
 			_get( url, {} )
@@ -118,7 +133,7 @@ export default {
 
 	// Get /wp-api-menus/v2/menu-locations/:location
 	getMenu: function( path ) {
-		let url = AnadamaSettings.URL.menuApi + path;
+		const url = AnadamaSettings.URL.menuApi + path;
 
 		jQuery.when(
 			_get( url, {} )
