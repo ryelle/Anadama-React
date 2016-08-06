@@ -1,5 +1,5 @@
 /* global jQuery AnadamaSettings */
-import first from 'lodash/array/first';
+import first from 'lodash/first';
 
 /**
  * Internal dependencies

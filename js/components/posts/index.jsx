@@ -1,9 +1,9 @@
 /* global AnadamaSettings */
 // External dependencies
 import React from 'react';
-import filter from 'lodash/collection/filter';
-import clone from 'lodash/lang/clone';
-import isEqual from 'lodash/lang/isEqual';
+import filter from 'lodash/filter';
+import clone from 'lodash/clone';
+import isEqual from 'lodash/isEqual';
 
 // Internal dependencies
 import API from 'utils/api';
