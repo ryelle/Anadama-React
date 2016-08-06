@@ -1,3 +1,5 @@
+/* eslint-disable no-multi-spaces */
+/*global AnadamaSettings */
 /**
  * Entry point for the app.
  * `page` is used to trigger the right controller for a route.
@@ -13,13 +15,14 @@ import page from 'page';
 // Internal dependencies
 import Controller from './components/controller';
 
-// page.base( '/' );
+const path = AnadamaSettings.path || '/';
+page.base( path );
 
-page( '/',           Controller.setup, Controller.navigation, Controller.posts );
-page( '/page/:page', Controller.setup, Controller.navigation, Controller.posts );
-page( '/category/:term', Controller.setup, Controller.navigation, Controller.term );
-page( '/tag/:term', Controller.setup, Controller.navigation, Controller.term );
+page( '',               Controller.setup, Controller.navigation, Controller.posts );
+page( 'page/:page',     Controller.setup, Controller.navigation, Controller.posts );
+page( 'category/:term', Controller.setup, Controller.navigation, Controller.term );
+page( 'tag/:term',      Controller.setup, Controller.navigation, Controller.term );
 
-page( /^\/(?!wp-admin).*/, Controller.setup, Controller.navigation, Controller.post );
+page( /^(?!wp-admin).*/, Controller.setup, Controller.navigation, Controller.post );
 
 page.start();

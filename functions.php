@@ -100,10 +100,14 @@ function anadama_scripts() {
 	wp_enqueue_style( 'anadama-style', get_stylesheet_uri() );
 	wp_enqueue_script( 'anadama-react', get_template_directory_uri() . '/js/app.js', array( 'jquery' ), ANADAMA_VERSION, true );
 
+	$url = trailingslashit( home_url() );
+	$path = trailingslashit( parse_url( $url, PHP_URL_PATH ) );
+
 	wp_localize_script( 'anadama-react', 'AnadamaSettings', array(
 		'nonce' => wp_create_nonce( 'wp_rest' ),
 		'user' => get_current_user_id(),
 		'title' => get_bloginfo( 'name', 'display' ),
+		'path' => $path,
 		'URL' => array(
 			'api' => esc_url_raw( get_rest_url( null, '/wp/v2' ) ),
 			'menuApi' => esc_url_raw( get_rest_url( null, '/wp-api-menus/v2' ) ),
