@@ -13,9 +13,10 @@ function onBuild( done ) {
 			throw new gutil.PluginError( 'webpack', err );
 		}
 
-		gutil.log( 'Building JS…', stats.toString( {
-			colors: true
-		} ), "\nJS finished at ", Date.now() );
+		gutil.log( stats.toString( {
+			colors: true,
+			chunks: false,
+		} ) );
 
 		if ( done ) {
 			done();
@@ -24,7 +25,6 @@ function onBuild( done ) {
 }
 
 function getWebpackConfig() {
-	// clone and extend webpackConfig
 	var config = Object.create( require( './webpack.config.js' ) );
 	config.devtool = "sourcemap";
 	config.debug = true;

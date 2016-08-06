@@ -46,7 +46,7 @@ let Term = React.createClass( {
 		// API.getPosts( filter ); -- Not the right API call
 	},
 
-	componentDidUpdate: function( prevProps, prevState ) {
+	componentDidUpdate: function( prevProps ) {
 		if ( prevProps !== this.props ) {
 			let filter = {};
 			if ( 'categories' === this.props.taxonomy ) {
@@ -83,7 +83,7 @@ let Term = React.createClass( {
 				<header className="page-header">
 					<h1 className="page-title">{ category.name }</h1>
 					{ category.description.length > 0 ?
-						<div className="taxonomy-description">{ category.description }</div>:
+						<div className="taxonomy-description">{ category.description }</div> :
 						null
 					}
 				</header>

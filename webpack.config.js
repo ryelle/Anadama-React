@@ -1,5 +1,4 @@
-var webpack = require( 'webpack' );
-var path = require( 'path' );
+const path = require( 'path' );
 
 module.exports = {
 	progress: true,
@@ -12,7 +11,7 @@ module.exports = {
 	resolve: {
 		extensions: [ '', '.js', '.jsx' ],
 		alias: {
-			'utils': path.resolve( __dirname, 'js/utils' ),
+			utils: path.resolve( __dirname, 'js/utils' ),
 		}
 	},
 	stats: { colors: true, reasons: true },
