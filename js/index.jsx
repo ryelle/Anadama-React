@@ -25,4 +25,6 @@ page( 'tag/:term',      Controller.setup, Controller.navigation, Controller.term
 
 page( /^(?!wp-admin).*/, Controller.setup, Controller.navigation, Controller.post );
 
-page.start();
+document.addEventListener( 'DOMContentLoaded', function() {
+	page.start();
+} );
