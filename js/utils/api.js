@@ -44,6 +44,7 @@ export default {
 	// args: might have pagination.
 	getPosts: function( args ) {
 		const url = AnadamaSettings.URL.api + '/categories/';
+		var deferred = jQuery.Deferred();
 		// args.hide_empty = true; // disabled until the API fixes boolean params
 		args.per_page = 10;
 
@@ -79,9 +80,13 @@ export default {
 					}
 				} );
 
+				deferred.resolve( results );
 				PostActions.fetch( data );
+			} ).fail( function( ...results ) {
+				deferred.reject( ...results );
 			} );
 		} );
+		return deferred.promise();
 	},
 
 	// Get posts in a category
@@ -92,7 +97,7 @@ export default {
 			per_page: 20,
 		};
 
-		jQuery.when(
+		return jQuery.when(
 			_get( url, args )
 		).done( function( data ) {
 			// Fetch expects an array of arrays, thanks to the category setup above.
@@ -107,7 +112,7 @@ export default {
 			search: args.term
 		};
 
-		jQuery.when(
+		return jQuery.when(
 			_get( url, args )
 		).done( function( data ) {
 			if ( data.constructor === Array ) {
@@ -121,7 +126,7 @@ export default {
 	getPost: function( slug, type ) {
 		const url = `${AnadamaSettings.URL.api}/${type}s/?slug=${slug}`;
 
-		jQuery.when(
+		return jQuery.when(
 			_get( url, {} )
 		).done( function( data ) {
 			if ( data.constructor === Array ) {
@@ -135,7 +140,7 @@ export default {
 	getMenu: function( path ) {
 		const url = AnadamaSettings.URL.menuApi + path;
 
-		jQuery.when(
+		return jQuery.when(
 			_get( url, {} )
 		).done( function( data ) {
 			NavActions.fetch( data );
