@@ -98,7 +98,7 @@ add_action( 'after_setup_theme', 'anadama_content_width', 0 );
  */
 function anadama_scripts() {
 	if ( is_customize_preview() ) {
-		wp_enqueue_script( 'anadama-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'jquery', 'customize-preview' ), ANADAMA_VERSION, true );
+		wp_enqueue_script( 'anadama-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'jquery', 'customize-preview', 'customize-preview-nav-menus' ), ANADAMA_VERSION, true );
 	}
 
 	wp_enqueue_style( 'anadama-style', get_stylesheet_uri() );

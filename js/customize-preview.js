@@ -1,4 +1,4 @@
-
+/* global Anadama */
 ( function( $, api ) {
 
 	// Site title.
@@ -42,5 +42,40 @@
 			event.preventDefault();
 		}
 	};
+
+	// Override default behavior with no-op.
+	api.navMenusPreview.onChangeNavMenuLocationsSetting = function() {};
+
+	api( 'nav_menu_locations[primary]', function previewNavMenuUpdates( navMenuLocationSetting ) {
+		var assignedNavMenuId = navMenuLocationSetting.get(), refreshNavMenu, requestNavMenu;
+
+		refreshNavMenu = function() {
+			$( '#site-navigation' ).addClass( 'customize-partial-refreshing' );
+			requestNavMenu();
+		};
+
+		requestNavMenu = _.debounce( function() {
+			Anadama.api.getMenu( '/menu-locations/primary/' ).done( function() {
+				$( '#site-navigation' ).removeClass( 'customize-partial-refreshing' );
+			} );
+		}, api.settings.timeouts.selectiveRefresh );
+
+		navMenuLocationSetting.bind( function( menuId ) {
+			assignedNavMenuId = menuId;
+			refreshNavMenu();
+		} );
+
+		api.navMenusPreview.onChangeNavMenuSetting = function() {
+			var navMenuSetting = this;
+			if ( 'nav_menu[' + String( assignedNavMenuId ) + ']' === navMenuSetting.id ) {
+				refreshNavMenu();
+			}
+		};
+		api.navMenusPreview.onChangeNavMenuItemSetting = function( newItem, oldItem ) {
+			if ( newItem && assignedNavMenuId === newItem.nav_menu_term_id || ! newItem && assignedNavMenuId === oldItem.nav_menu_term_id ) {
+				refreshNavMenu();
+			}
+		};
+	} );
 
 } )( jQuery, wp.customize );
