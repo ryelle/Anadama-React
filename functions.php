@@ -97,6 +97,10 @@ add_action( 'after_setup_theme', 'anadama_content_width', 0 );
  * Enqueue scripts and styles.
  */
 function anadama_scripts() {
+	if ( is_customize_preview() ) {
+		wp_enqueue_script( 'anadama-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'jquery', 'customize-preview' ), ANADAMA_VERSION, true );
+	}
+
 	wp_enqueue_style( 'anadama-style', get_stylesheet_uri() );
 	wp_enqueue_script( 'anadama-react', get_template_directory_uri() . '/js/app.js', array( 'jquery' ), ANADAMA_VERSION, true );
 
@@ -187,3 +191,14 @@ function anadama_jetpack_setup() {
 	add_theme_support( 'site-logo' );
 }
 add_action( 'after_setup_theme', 'anadama_jetpack_setup' );
+
+/**
+ * Register customizer settings.
+ *
+ * @param WP_Customize_Manager $wp_customize Customize manager.
+ */
+function anadama_customize_register( WP_Customize_Manager $wp_customize ) {
+	$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+}
+add_action( 'customize_register', 'anadama_customize_register' );
