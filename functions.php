@@ -103,8 +103,9 @@ function anadama_scripts() {
 	$url = trailingslashit( home_url() );
 	$path = trailingslashit( parse_url( $url, PHP_URL_PATH ) );
 
-	wp_localize_script( 'anadama-react', 'AnadamaSettings', array(
+	wp_scripts()->add_data( 'anadama-react', 'data', sprintf( 'var AnadamaSettings = %s;', wp_json_encode( array(
 		'nonce' => wp_create_nonce( 'wp_rest' ),
+		'localStorageCache' => ! is_customize_preview(),
 		'user' => get_current_user_id(),
 		'title' => get_bloginfo( 'name', 'display' ),
 		'path' => $path,
@@ -113,7 +114,7 @@ function anadama_scripts() {
 			'menuApi' => esc_url_raw( get_rest_url( null, '/wp-api-menus/v2' ) ),
 			'root' => esc_url_raw( $url ),
 		),
-	) );
+	) ) ) );
 }
 add_action( 'wp_enqueue_scripts', 'anadama_scripts' );
 

@@ -11,7 +11,7 @@ import NavActions from '../actions/nav-actions';
 const _get = function( url, data ) {
 	const cacheKey = url.replace( AnadamaSettings.URL.root, '' ) + JSON.stringify( data );
 	let postData = JSON.parse( localStorage.getItem( cacheKey ) );
-	if ( postData ) {
+	if ( postData && AnadamaSettings.localStorageCache ) {
 		let dfd = new jQuery.Deferred;
 		return dfd.resolve( postData );
 	}
@@ -21,7 +21,9 @@ const _get = function( url, data ) {
 		data: data,
 		dataType: 'json',
 		success: ( returnData ) => {
-			localStorage.setItem( cacheKey, JSON.stringify( returnData ) );
+			if ( AnadamaSettings.localStorageCache ) {
+				localStorage.setItem( cacheKey, JSON.stringify( returnData ) );
+			}
 		}
 	} );
 };
