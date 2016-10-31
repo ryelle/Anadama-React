@@ -18,7 +18,7 @@ const _get = function( url, data ) {
 
 	return jQuery.ajax( {
 		url: url,
-		data: data,
+		data: jQuery.extend( {}, data, { _wpnonce: AnadamaSettings.nonce } ),
 		dataType: 'json',
 		success: ( returnData ) => {
 			if ( AnadamaSettings.localStorageCache ) {
