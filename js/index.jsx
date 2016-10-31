@@ -12,6 +12,8 @@ require( 'babel-polyfill' );
 // External dependencies
 import page from 'page';
 
+import API from 'utils/api';
+
 // Internal dependencies
 import Controller from './components/controller';
 
@@ -28,3 +30,8 @@ page( /^(?!wp-admin).*/, Controller.setup, Controller.navigation, Controller.pos
 document.addEventListener( 'DOMContentLoaded', function() {
 	page.start();
 } );
+
+module.exports = {
+	page: page,
+	api: API,
+};

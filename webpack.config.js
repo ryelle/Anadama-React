@@ -7,6 +7,8 @@ module.exports = {
 		path: path.resolve( __dirname, './js' ),
 		filename: '[name].js',
 		chunkFilename: '[id].js',
+		libraryTarget: "var",
+		library: "Anadama"
 	},
 	resolve: {
 		extensions: [ '', '.js', '.jsx' ],
