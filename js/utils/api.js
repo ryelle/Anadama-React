@@ -57,9 +57,7 @@ export default {
 					AnadamaSettings.URL.api + '/posts/',
 					{
 						per_page: 20,
-						filter: {
-							category_name: category.slug
-						}
+						categories: category.id
 					}
 				) );
 			} );
@@ -119,9 +117,9 @@ export default {
 		} );
 	},
 
-	// Get /{post_type}/?filter[name]={slug}
+	// Get /{post_type}/?slug={slug}
 	getPost: function( slug, type ) {
-		const url = `${AnadamaSettings.URL.api}/${type}s/?filter[name]=${slug}`;
+		const url = `${AnadamaSettings.URL.api}/${type}s/?slug=${slug}`;
 
 		jQuery.when(
 			_get( url, {} )
