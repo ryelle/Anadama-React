@@ -97,14 +97,19 @@ add_action( 'after_setup_theme', 'anadama_content_width', 0 );
  * Enqueue scripts and styles.
  */
 function anadama_scripts() {
+	if ( is_customize_preview() ) {
+		wp_enqueue_script( 'anadama-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'jquery', 'customize-preview', 'customize-preview-nav-menus' ), ANADAMA_VERSION, true );
+	}
+
 	wp_enqueue_style( 'anadama-style', get_stylesheet_uri() );
 	wp_enqueue_script( 'anadama-react', get_template_directory_uri() . '/js/app.js', array( 'jquery' ), ANADAMA_VERSION, true );
 
 	$url = trailingslashit( home_url() );
 	$path = trailingslashit( parse_url( $url, PHP_URL_PATH ) );
 
-	wp_localize_script( 'anadama-react', 'AnadamaSettings', array(
+	wp_scripts()->add_data( 'anadama-react', 'data', sprintf( 'var AnadamaSettings = %s;', wp_json_encode( array(
 		'nonce' => wp_create_nonce( 'wp_rest' ),
+		'localStorageCache' => ! is_customize_preview(),
 		'user' => get_current_user_id(),
 		'title' => get_bloginfo( 'name', 'display' ),
 		'path' => $path,
@@ -113,7 +118,7 @@ function anadama_scripts() {
 			'menuApi' => esc_url_raw( get_rest_url( null, '/wp-api-menus/v2' ) ),
 			'root' => esc_url_raw( $url ),
 		),
-	) );
+	) ) ) );
 }
 add_action( 'wp_enqueue_scripts', 'anadama_scripts' );
 
@@ -186,3 +191,32 @@ function anadama_jetpack_setup() {
 	add_theme_support( 'site-logo' );
 }
 add_action( 'after_setup_theme', 'anadama_jetpack_setup' );
+
+/**
+ * Register customizer settings.
+ *
+ * @param WP_Customize_Manager $wp_customize Customize manager.
+ */
+function anadama_customize_register( WP_Customize_Manager $wp_customize ) {
+	$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+
+	add_filter( 'wp_get_nav_menu_items', '_anadama_filter_wp_api_nav_menu_items_workaround', 20  );
+}
+add_action( 'customize_register', 'anadama_customize_register' );
+
+/**
+ * Workaround issue in WP API Menus plugin to force nav menu item classes to be arrays instead of strings.
+ *
+ * @see \WP_REST_Menus::get_menu_location()
+ *
+ * @param array $items Nav menu items.
+ */
+function _anadama_filter_wp_api_nav_menu_items_workaround( $items ) {
+	foreach ( $items as &$item ) {
+		if ( is_string( $item->classes ) ) {
+			$item->classes = explode( ' ', $item->classes );
+		}
+	}
+	return $items;
+}
