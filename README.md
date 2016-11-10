@@ -3,12 +3,12 @@ Anadama
 
 A react-based recipe theme for WordPress.
 
-Want to try out the theme? Download or clone this repo into your `/themes` folder, then run npm & gulp to install and build the javascript & CSS files. The process will look like this
+Want to try out the theme? Download or clone this repo into your `/themes` folder, then run a few npm scripts to install and build the javascript & CSS files. The process will look like this
 
 	git clone https://github.com/ryelle/Anadama-React anadama
 	cd anadama
 	npm install
-	gulp
+	npm run dev
 
 Now you'll see a `js/app.js` file in the theme, and it will be available for you to switch to in wp-admin. If you're having trouble getting the theme active, please [file an issue](https://github.com/ryelle/Anadama-React/issues) & I'll help you out.
 
