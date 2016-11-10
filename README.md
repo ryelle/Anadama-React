@@ -38,5 +38,22 @@ Known Issues/To Do
  - Work with Jetpack scripts to load (or not) when needed.
  - Make the recipe's "Print" button work (related to Jetpack scripts)
  - Responsive styles + a good print stylesheet for recipe pages
- - Cached data might stick around forever, maybe not the best idea for post list pages.
+ - Cached data will stick around forever, maybe not the best idea for post list pages.
  - Category/Tag archives don't exist yet
+
+Building the Javascript & CSS
+-----------------------------
+
+Currently this project uses gulp to build a CSS file from `sass/style.scss`, and webpack by way of gulp to build the javascript file from `js/index.js`. There are 3 ways to build (the CSS is done the same in all 3, no minification there currently):
+
+### `npm run dev`
+
+This builds a development version of app.js, along with a sourcemap.
+
+### `npm run watch`
+
+This builds the development version, then watches the Sass and JS files for any changes to automatically re-build.
+
+### `npm run build`
+
+This builds the "production" version of the code, and is only here as an example of how to set up a production build. I don't recommend running Anadama as it is in production without your own testing (browser, device, etc).
