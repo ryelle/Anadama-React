@@ -26,8 +26,6 @@ function onBuild( done ) {
 
 function getWebpackConfig() {
 	var config = Object.create( require( './webpack.config.js' ) );
-	config.devtool = "sourcemap";
-	config.debug = true;
 
 	config.entry = {
 		app: './js/index.jsx',

@@ -13,6 +13,8 @@ const webpackConfig = {
 		library: 'Anadam'
 	},
 	plugins: [],
+	devtool: ( 'production' === NODE_ENV ) ? false : '#source-map',
+	debug: ( 'production' === NODE_ENV ) ? false : true,
 	resolve: {
 		extensions: [ '', '.js', '.jsx' ],
 		alias: {
