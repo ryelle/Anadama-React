@@ -1,15 +1,18 @@
 const path = require( 'path' );
+const webpack = require( 'webpack' );
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
-module.exports = {
+const webpackConfig = {
 	progress: true,
 	output: {
 		publicPath: '/js/',
 		path: path.resolve( __dirname, './js' ),
 		filename: '[name].js',
 		chunkFilename: '[id].js',
-		libraryTarget: "var",
-		library: "Anadama"
+		libraryTarget: 'var',
+		library: 'Anadam'
 	},
+	plugins: [],
 	resolve: {
 		extensions: [ '', '.js', '.jsx' ],
 		alias: {
@@ -40,3 +43,16 @@ module.exports = {
 		quiet: true,
 	}
 };
+
+if ( NODE_ENV === 'production' ) {
+	// When running in production, we want to use the minified script so that the file is smaller
+	webpackConfig.plugins.push( new webpack.optimize.UglifyJsPlugin( {
+		compress: {
+			warnings: false
+		}
+	} ) );
+
+	webpackConfig.plugins.push( new webpack.optimize.DedupePlugin() );
+}
+
+module.exports = webpackConfig;
