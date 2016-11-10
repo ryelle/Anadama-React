@@ -12,7 +12,15 @@ const webpackConfig = {
 		libraryTarget: 'var',
 		library: 'Anadam'
 	},
-	plugins: [],
+	plugins: [
+		new webpack.DefinePlugin( {
+			// NODE_ENV is used inside React to enable/disable features that should only
+			// be used in development
+			'process.env': {
+				NODE_ENV: JSON.stringify( NODE_ENV ),
+			}
+		} ),
+	],
 	devtool: ( 'production' === NODE_ENV ) ? false : '#source-map',
 	debug: ( 'production' === NODE_ENV ) ? false : true,
 	resolve: {
