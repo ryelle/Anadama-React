@@ -68,7 +68,7 @@ let CategoryList = React.createClass( {
 			return this.state.data;
 		}
 
-		let categories = clone( this.state.data, true );
+		let categories = JSON.parse(JSON.stringify(this.state.data));
 
 		categories = categories.map( ( category ) => {
 			let filteredPosts = filter( category.posts, ( post ) => {
